@@ -1,0 +1,69 @@
+
+#NewStreamDrawerBody {
+  height: 100%;
+ 
+}
+#NewStreamDrawerFooter{
+  height: 100%;
+  width: 95%;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: flex-start;
+  align-items: center;
+}
+#NewStreamDrawerFooterInner{
+  height: 100%;
+  width: 60%;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr 1fr;
+}
+#cancelButton {
+  margin-left: 5%;
+}
+
+.chooseAFlowText {
+  font-size: 1.2em;
+}
+.insertUrlText {
+  font-size: 1.1em;
+}
+
+#ParticipantsListContainer{
+  width: 90%;
+  margin-left: 10%;
+height: 100%;
+
+}
+
+.selectedFlowText{
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.NewStreamSettingBox{
+  margin-bottom: 2em;
+}
+.NewStreamSettingControl{
+  margin-bottom: 0.5em;
+}
+.NewStreamSettingText{
+  padding-bottom: 0.5em;
+  display: block;
+}
+.NewStreamSettingTopLabel{
+  display: block;
+}
+.NewStreamSettingInlineLabel{
+  margin-right: 0.5em;
+}
+
+.DrawerButton{
+  width: 120px;
+}
+.NewStreamInput{
+  width: 300px;
+}
+
+.settingsText{
+  width: 90%;
+}

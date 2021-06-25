@@ -1,0 +1,34 @@
+#Nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* border: 1px solid red; */
+
+  /* text-align: center; */
+  /* position: absolute; */
+  text-align: center;
+  /* bottom: 0; */
+}
+#Nav ul li {
+  display: inline-block;
+  padding-right: 20px;
+  padding-top: 24px;
+}
+
+#Nav ul a {
+  display: block;
+  padding: 10px;
+  border-color: transparent;
+  color: 000;
+
+  transition: all 0.1s ease-in-out;
+}
+
+#Nav ul .selected {
+  font-weight: bold;
+}
+#Nav ul .selected a,
+#Nav ul a:hover {
+  border-bottom: 4px solid #6364a9;
+  color: #6364a9;
+}

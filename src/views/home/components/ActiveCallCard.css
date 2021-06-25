@@ -1,0 +1,106 @@
+.activeCallCard {
+  float: left;
+  min-width: 400px;
+  position: relative;
+}
+
+@media only screen and (max-width: 1300px) {
+  .activeCallCard {
+    min-width: 460px;
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 1300px) {
+  .activeCallCard {
+    min-width: auto;
+    width: 33%;
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  .activeCallCard {
+    min-width: auto;
+    width: 25%;
+  }
+}
+
+.activeCallCard .content {
+  position: relative;
+
+  height: 200px;
+  margin: 0px 20px 20px 0;
+  border-radius: 4px 4px 24px 4px;
+  background-color: #fff;
+  transition: all 0.1s ease-in-out;
+  padding: 20px;
+
+  /* shadow */
+  -webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.activeCallCard .content h3 {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.activeCallCard .status {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* palette - disconnected / non-streaming */
+.activeCallCard .content .status {
+  color: #bdbdbd;
+}
+
+/* palette - establised */
+.activeCallCard.healthy .content .status {
+  color: #73c856;
+}
+
+/* palette - initializing/connecting */
+.activeCallCard.initializing .content .status {
+  color: #f3ca3e;
+}
+
+/* palette - error/unhealthy */
+.activeCallCard.error .content .status {
+  color: #df3639;
+}
+
+.activeCallCard p {
+  padding: 0;
+  margin: 0 0 4px 0;
+}
+
+.activeCallCard a.action {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: inline-flex;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  border-radius: 60px;
+  vertical-align: middle;
+
+  transition: all 0.1s ease-in-out;
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.activeCallCard a.action:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.activeCallCard a.action svg {
+  display: block;
+  margin: auto;
+}

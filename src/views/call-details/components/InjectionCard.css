@@ -1,0 +1,173 @@
+.injectionCard {
+  float: left;
+  min-width: 400px;
+  position: relative;
+}
+
+@media only screen and (max-width: 1300px) {
+  .injectionCard {
+    min-width: 460px;
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 1300px) {
+  .injectionCard {
+    min-width: auto;
+    width: 33%;
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  .injectionCard {
+    min-width: auto;
+    width: 25%;
+  }
+}
+
+.injectionCard .injectionCardContent {
+  height: 160px;
+  margin: 10px;
+  border: 3px solid;
+  border-radius: 77px 24px 24px 77px;
+  background-color: #fff;
+  transition: all 0.1s ease-in-out;
+
+  /* shadow */
+  -webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.injectionCard .toggler {
+  transition: all 0.1s ease-in-out;
+  height: 160px;
+}
+.injectionCard.expanded .injectionCardContent {
+  height: 340px;
+  border-radius: 77px 24px 24px 24px;
+}
+.injectionCard.expanded .toggler {
+  height: 340px;
+}
+
+/* content */
+.injectionCard .injectionCardContent > .ant-row > .ant-col {
+  padding: 20px;
+}
+
+.injectionCard .injectionCardContent > .ant-row > .ant-col.injectionMain {
+  padding-left: 0;
+}
+
+/* Avatar */
+.injectionCard .ant-avatar-string {
+  font-size: 1.8em;
+}
+
+/* Display name */
+.injectionCard h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.4em;
+}
+
+/* Status */
+.injectionCard .InjectionState {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* icons & btns */
+.injectionCard .injectionActions {
+  height: 60px;
+}
+.injectionCard .injectionActions .anticon {
+  font-size: 18px;
+  margin-right: 4px;
+}
+
+/* main info */
+.injectionCard .injectionMain {
+  flex-grow: 1;
+}
+
+.injectionCard .injectionDetails p {
+  padding: 0;
+  margin: 0 0 4px 0;
+}
+.injectionCard .injectionOptions {
+  text-align: right;
+  padding-right: 15px;
+}
+
+/* more details toggler */
+.injectionCard .toggler {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 28px;
+  border-radius: 0px 21px 21px 0px;
+  cursor: pointer;
+}
+.injectionCard .toggler span {
+  color: white;
+  font-weight: bold;
+
+  display: block;
+  position: absolute;
+
+  transform: rotate(-90deg);
+  width: 150px;
+  bottom: 60px;
+  right: -60px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* palette - disconnected / non-injectioning */
+.injectionCard .injectionCardContent {
+  border-color: #bdbdbd;
+}
+.injectionCard .toggler {
+  background-color: #bdbdbd;
+}
+.injectionCard .injectionCardContent .InjectionState {
+  color: #bdbdbd;
+}
+
+/* palette - establised */
+.injectionCard.established .injectionCardContent {
+  border-color: #73c856;
+}
+.injectionCard.established .toggler {
+  background-color: #73c856;
+}
+.injectionCard.established .injectionCardContent .InjectionState {
+  color: #73c856;
+}
+
+/* palette - initializing/connecting */
+.injectionCard.initializing .injectionCardContent {
+  border-color: #f3ca3e;
+}
+.injectionCard.initializing .toggler {
+  background-color: #f3ca3e;
+}
+.injectionCard.initializing .injectionCardContent .InjectionState {
+  color: #f3ca3e;
+}
+
+/* palette - error/unhealthy */
+.injectionCard.error .injectionCardContent {
+  border-color: #df3639;
+}
+.injectionCard.error .toggler {
+  background-color: #df3639;
+}
+.injectionCard.error .injectionCardContent .InjectionState {
+  color: #df3639;
+}

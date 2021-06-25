@@ -1,0 +1,18 @@
+{
+  "buildNumber": "0.0.0",
+  "apiBaseUrl": "https://localhost:8442/api",
+  "releaseDummyVariable": "empty",
+  "msalConfig": {
+    "spaClientId": "",
+    "apiClientId": "",
+    "groupId": "",
+    "authority": "",
+    "redirectUrl": ""
+  },
+  "featureFlags": {
+    "DISABLE_AUTHENTICATION": {
+      "description": "Disable authentication flow when true",
+      "isActive": false
+    }
+  }
+}

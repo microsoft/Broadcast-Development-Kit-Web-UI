@@ -1,0 +1,173 @@
+.streamCard {
+  float: left;
+  min-width: 400px;
+  position: relative;
+}
+
+@media only screen and (max-width: 1300px) {
+  .streamCard {
+    min-width: 460px;
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 1300px) {
+  .streamCard {
+    min-width: auto;
+    width: 33%;
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  .streamCard {
+    min-width: auto;
+    width: 25%;
+  }
+}
+
+.streamCard .streamCardContent {
+  height: 160px;
+  margin: 10px;
+  border: 3px solid;
+  border-radius: 77px 24px 24px 77px;
+  background-color: #fff;
+  transition: all 0.1s ease-in-out;
+
+  /* shadow */
+  -webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.streamCard .toggler {
+  transition: all 0.1s ease-in-out;
+  height: 160px;
+}
+.streamCard.expanded .streamCardContent {
+  height: 340px;
+  border-radius: 77px 24px 24px 24px;
+}
+.streamCard.expanded .toggler {
+  height: 340px;
+}
+
+/* content */
+.streamCard .streamCardContent > .ant-row > .ant-col {
+  padding: 20px;
+}
+
+.streamCard .streamCardContent > .ant-row > .ant-col.streamMain {
+  padding-left: 0;
+}
+
+/* Avatar */
+.streamCard .ant-avatar-string {
+  font-size: 1.8em;
+}
+
+/* Display name */
+.streamCard h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.4em;
+}
+
+/* Status */
+.streamCard .StreamState {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* icons & btns */
+.streamCard .streamActions {
+  height: 60px;
+}
+.streamCard .streamActions .anticon {
+  font-size: 18px;
+  margin-right: 4px;
+}
+
+/* main info */
+.streamCard .streamMain {
+  flex-grow: 1;
+}
+
+.streamCard .streamDetails p {
+  padding: 0;
+  margin: 0 0 4px 0;
+}
+.streamCard .streamOptions {
+  text-align: right;
+  padding-right: 15px;
+}
+
+/* more details toggler */
+.streamCard .toggler {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 28px;
+  border-radius: 0px 21px 21px 0px;
+  cursor: pointer;
+}
+.streamCard .toggler span {
+  color: white;
+  font-weight: bold;
+
+  display: block;
+  position: absolute;
+
+  transform: rotate(-90deg);
+  width: 150px;
+  bottom: 60px;
+  right: -60px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* palette - disconnected / non-streaming */
+.streamCard .streamCardContent {
+  border-color: #bdbdbd;
+}
+.streamCard .toggler {
+  background-color: #bdbdbd;
+}
+.streamCard .streamCardContent .StreamState {
+  color: #bdbdbd;
+}
+
+/* palette - establised */
+.streamCard.established .streamCardContent {
+  border-color: #73c856;
+}
+.streamCard.established .toggler {
+  background-color: #73c856;
+}
+.streamCard.established .streamCardContent .StreamState {
+  color: #73c856;
+}
+
+/* palette - initializing/connecting */
+.streamCard.initializing .streamCardContent {
+  border-color: #f3ca3e;
+}
+.streamCard.initializing .toggler {
+  background-color: #f3ca3e;
+}
+.streamCard.initializing .streamCardContent .StreamState {
+  color: #f3ca3e;
+}
+
+/* palette - error/unhealthy */
+.streamCard.error .streamCardContent {
+  border-color: #df3639;
+}
+.streamCard.error .toggler {
+  background-color: #df3639;
+}
+.streamCard.error .streamCardContent .StreamState {
+  color: #df3639;
+}
