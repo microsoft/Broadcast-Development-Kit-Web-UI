@@ -1,6 +1,9 @@
-# [WIP] How to Run the Solution Locally
+# [WIP] How to run the solution locally
 
 >**This is a draft and its format and content may change in future updates.**
+
+# About
+The following document explains the software that needs to be installed and the steps to be followed to configure and run the web portal solution used to consume the [Management API](https://github.com/microsoft/Teams-Broadcast-Extension). This includes:
 
 - [[WIP] How to Run the Solution Locally](#wip-how-to-run-the-solution-locally)
   - [Run The Backend Solution](#run-the-backend-solution)
@@ -15,15 +18,7 @@ It is necessary to have a [backend instance of the solution](https://github.com/
 
 
 ## Install Node.js and npm
-Install [node.js](https://nodejs.org/en/) and [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), if you use the [node.js installer](https://nodejs.org/en/download/) it is already included with npm so you don't need to install it again.
-
-To see if you already have Node.js and npm installed and to check the installed version, run in a console the commands `node -v` and `npm -v` and you will get a message (version number may change depending on the installed version) like the following: 
-
-|![node.js and npm versions](images/node_version.png)|
-|:--:|
-|*node.js and npm installed versions*|
-
-> You can open a console by pressing `Win + R` keys, write `cmd` in the `Open` input and press `Ok`
+It is necessary to have [node.js and npm installed](../common/install_node_and_npm.md) in order to proceed with the following steps.
 
 ## Install the Solution
 
@@ -71,8 +66,8 @@ Placeholder | Description
 
 Placeholder | Description 
 ---------|----------
- spaClientId | CliendI of the App Registration of this frontend solution.
- apiClientId | CliendId of the App Registration of the ManagementApi. 
+ spaClientId | Client Id of the App Registration of this frontend solution.
+ apiClientId | Client Id of the App Registration of the ManagementApi. 
  groupId | ObjectId of the group created on Azure. 
  tenantId | Azure account Tenant Id.
  port | Port on which the frontend solution is running usually `3000`
@@ -107,3 +102,9 @@ In the Web Portal solution click on the `Join a Call` tab in the top menu, copy 
 |![npm i running](images/join_call.png)|
 |:--:|
 |*Complete the "Invitation Url" field with the Microsoft Teams meeting invitation link.*|
+
+After a few seconds the bot will join the Microsoft Teams meeting and the call details will be displayed on the web portal.
+
+|![npm i running](images/call_details.png)|
+|:--:|
+|*When the bot joins, the call details will be displayed.*|
