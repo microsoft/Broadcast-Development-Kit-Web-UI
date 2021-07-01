@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import baseReducer from "../base/BaseReducer";
 import { AppConfig } from "./types";
 import * as ConfigActions from "./actions";

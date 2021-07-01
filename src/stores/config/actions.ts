@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ApiError } from '../../models/error/types';
 import BaseAction from '../base/BaseAction';
 import { AppConfig } from './types';

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Middleware } from 'redux';
 import IAppState from '../services/store/IAppState';
 import { notification } from 'antd';

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { IconButton } from '@material-ui/core';
 import { Mic, MicOff } from '@material-ui/icons';
 import { Avatar, Button, Col, Row, Typography } from 'antd';

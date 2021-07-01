@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export * from './disconnectCall';
 export * from './getCall';
 export * from './joinCall';

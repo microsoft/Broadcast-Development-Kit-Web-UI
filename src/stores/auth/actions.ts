@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { UserProfile } from '../../models/auth/types';
 import { DefaultError } from '../../models/error/types';
 import { AuthStatus } from '../../models/auth/types';

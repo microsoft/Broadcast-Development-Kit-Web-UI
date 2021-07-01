@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { BotService } from "../../models/service/types";
 import { Resource } from "../../services/api";
 import baseReducer from "../base/BaseReducer";

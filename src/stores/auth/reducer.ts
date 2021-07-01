@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AuthStatus, UserProfile, UserRoles } from '../../models/auth/types';
 import * as AuthActions from './actions';
 import baseReducer from '../base/BaseReducer';

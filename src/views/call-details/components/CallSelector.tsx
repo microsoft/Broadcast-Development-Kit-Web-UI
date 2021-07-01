@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter, Redirect } from 'react-router';

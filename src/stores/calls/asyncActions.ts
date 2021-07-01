@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import {push} from 'connected-react-router';
 import {AnyAction} from 'redux';
 import {ThunkAction} from 'redux-thunk';

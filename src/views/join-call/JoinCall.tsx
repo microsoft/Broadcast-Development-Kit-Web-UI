@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import React, { createRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Button, Form, Row, Col } from "antd";

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { RouterState } from 'connected-react-router'
 import { AuthState } from '../../stores/auth/reducer';
 import { ICallsState } from '../../stores/calls/reducer';
