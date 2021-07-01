@@ -2,25 +2,18 @@
 
 >**This is a draft and its format and content may change in future updates.**
 
-# About
-The following document explains the software that needs to be installed and the steps to be followed to configure and run the web portal solution used to consume the [Management API](https://github.com/microsoft/Teams-Broadcast-Extension). This includes:
+>todo
+>link the app registration of the configuration to how to run in azure appregistraiton
 
-- [[WIP] How to Run the Solution Locally](#wip-how-to-run-the-solution-locally)
-  - [Run The Backend Solution](#run-the-backend-solution)
-  - [Install Node.js and npm](#install-nodejs-and-npm)
+## Getting Started
+The objective of this document is to explain the necessary steps to configure and run the Web Portal solution in a local environment. This includes:
+
   - [Install the Solution](#install-the-solution)
   - [Configuring the Solution](#configuring-the-solution)
   - [Running the Solution](#running-the-solution)
   - [Testing the solution](#testing-the-solution)
 
-## Run The Backend Solution
-It is necessary to have a [backend instance of the solution](https://github.com/microsoft/Teams-Broadcast-Extension) already configured and running locally or in Azure to which this application will connect to be functional.
-
-
-## Install Node.js and npm
-It is necessary to have [node.js and npm installed](../common/install_node_and_npm.md) in order to proceed with the following steps.
-
-## Install the Solution
+### Install the Solution
 
 Go to the main directory of the solution open a command console in that directory and enter the command `npm i`. It will start the installation of the packages used by the solution which may take a few seconds.
 
@@ -30,7 +23,7 @@ Go to the main directory of the solution open a command console in that director
 
 Once finished you will notice that a directory called node_modules and a package-lock.json file have been created.
 
-## Configuring the Solution
+### Configuring the Solution
 To configure the solution open the `config.json` file located in the `public` folder of the solution's root directory and edit the following parameters:
 
 ```json
@@ -72,10 +65,10 @@ Placeholder | Description
  tenantId | Azure account Tenant Id.
  port | Port on which the frontend solution is running usually `3000`
 
-## Running the Solution
+### Running the Solution
 Once the solution is configured to run, go to the root directory of the solution, open a command console and type the following command `npm run start`, a message like the following will appear and a new tab will open in the browser:
 
-|![npm i running](images/starting_webportal.png)|
+|![npm run start](images/starting_webportal.png)|
 |:--:|
 |*After entering the command `npm run start` the solution will start to run.*|
 
@@ -83,15 +76,15 @@ Once the solution is configured to run, go to the root directory of the solution
 
 Once the web portal finishes launching, the view of the opened tab in the browser will be refreshed showing the following:
 
-|![npm i running](images/webportal_running.png)|
+|![Web Portal](images/webportal_running.png)|
 |:--:|
 |*Web Portal after startup is complete*|
 
-## Testing the solution
+### Testing the solution
 
 [Create](https://support.microsoft.com/en-us/office/schedule-a-meeting-in-teams-943507a9-8583-4c58-b5d2-8ec8265e04e5) a new microsoft teams meeting and join it.
 
-|![Microsoft Teams Invite Link](images/invite_link.png)|
+|![Microsoft Teams Invite Link](../common/images/invite_link.png)|
 |:--:|
 |*Steps to copy the invite Link from Microsoft Teams*|
 
@@ -99,12 +92,12 @@ Once you have joined the meeting copy the invitation link from the meeting and w
 
 In the Web Portal solution click on the `Join a Call` tab in the top menu, copy the Microsoft Teams Meeting Invitation Link to the `Invite URL` field and click on the `Join Call` button below.
 
-|![npm i running](images/join_call.png)|
+|![Join call menu](../common/images/join_call.png)|
 |:--:|
 |*Complete the "Invitation Url" field with the Microsoft Teams meeting invitation link.*|
 
 After a few seconds the bot will join the Microsoft Teams meeting and the call details will be displayed on the web portal.
 
-|![npm i running](images/call_details.png)|
+|![Call details view](../common/images/call_details.png)|
 |:--:|
 |*When the bot joins, the call details will be displayed.*|

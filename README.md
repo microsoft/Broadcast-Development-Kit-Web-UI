@@ -1,4 +1,48 @@
-# Project
+# Project (WIP)
+
+This repository contains a sample **Web portal** application to control the [Broadcasts Protocols for Teams](https://github.com/microsoft/Teams-Broadcast-Extension) solution. 
+
+This Teams app is developed as a single page application (SPA) in React and TypeScript.
+
+## Exploring the repository
+
+The repository is structured in the following directories:
+- **src**: Contains the source code of the application.
+- **public**: Contains static files that are used in the application, including configuration files.
+- **docs**: Contains the documentation of the solution.
+
+## Dependencies
+
+This is not an standalone application. It requires an instance of the [Broadcasts Protocols for Teams](https://github.com/microsoft/Teams-Broadcast-Extension) to work with. Check the documentation in that repository to run the **Broadcast Protocols for Teams** (either locally or in the cloud) before using this application.
+
+## Getting Started
+
+This section will guide you through the process of configuring the solution to run it locally and/or in azure.
+
+### Prerequisites
+Before following the guides about how to run the solution locally and/or in Azure, we need to meet the following requirements:
+
+- [Node JS and npm](docs/how-to-install-nodejs-and-npm/README.md)
+- [An instance (either locally or in the cloud) Broadcasts Protocols for Teams](https://github.com/microsoft/Teams-Broadcast-Extension) to work with.
+
+
+### How to run the solution locally
+To run the solution in a local environment please follow the guide listed below:
+- [How to run the solution locally](docs/how-to-run-the-solution-locally/README.md)
+
+### How to run the solution in Azure
+To run the solution in Azure please follow the guide listed below:
+- [How to run the solution in Azure](docs/how-to-run-the-solution-in-azure/README.md)
+
+## License
+
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+Licensed under the [MIT](LICENSE) license.
+
+---
+
+# Original README - Things to review
 
 > This repo has been populated by an initial template to help get you started. Please
 > make sure to update the content to build a great experience for community-building.
