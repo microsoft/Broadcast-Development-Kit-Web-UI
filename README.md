@@ -2,7 +2,7 @@
 
 This repository contains a sample **Web portal** application to control the [Broadcasts Protocols for Teams](https://github.com/microsoft/Teams-Broadcast-Extension) solution. 
 
-This Teams app is developed as a single page application (SPA) in React and TypeScript.
+This Web Portal is developed as a single page application (SPA) in React and TypeScript.
 
 ## Exploring the repository
 
