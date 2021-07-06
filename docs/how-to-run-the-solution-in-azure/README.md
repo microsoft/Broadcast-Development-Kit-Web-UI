@@ -1,10 +1,4 @@
-# [WIP] How to run the solution in Azure
-
->**This is a draft and its format and content may change in future updates.**
-
-> todo
-> change app registration of management api link x2 times in app registration
-> change app service link to docs in cors section
+# How to run the solution in Azure
 
 ## Getting Started
 The objective of this document is to explain the necessary steps to configure and run the Web Portal solution in Azure. This includes:
@@ -20,7 +14,7 @@ The objective of this document is to explain the necessary steps to configure an
 
 Create a new [App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) in Azure for the solution.
 
-* `Name`: Any meaningful name (e.g: `broadcaster-app-spa`). 
+* `Name`: Any meaningful name (e.g: `broadcast-app-spa`). 
 
 * `Authentication`: 
 
@@ -53,7 +47,7 @@ API / Permission name | Type | Admin consent
 
 * `App roles`: None. 
 
-After creating this App Registration copy the app ID and modify the Manifest of the App Registration created to the [Management API](https://github.com/microsoft/Teams-Broadcast-Extension/blob/documentation/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-application-registration) adding the following property: 
+After creating this App Registration copy the app ID and modify the Manifest of the App Registration created for the [Management API](https://github.com/microsoft/Teams-Broadcast-Extension/blob/documentation/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-application-registration) adding the following property: 
  
 ```json
 "knownClientApplications": ["{{applicationId}}"] 
@@ -66,7 +60,7 @@ applicationId | Client Id of the App Registration created for the spa.
 
 [Create](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-create?tabs=azure-portal) an Storage Account that will be used to host the single-page solution. 
 
-- `Name`: broadcasterportal (or any other meaningful name). 
+- `Name`: broadcastportal (or any other meaningful name). 
 - `Region`: same region as the rest of the resources. 
 - `Performance`: Standard. 
 - `Redundancy`: Locally-redundant storage (LRS). 
@@ -84,32 +78,48 @@ Leave the rest of the settings as-is. Once this Storage Account is created, go t
 >Copy the value of `Primary endpoint` that will appear after pressing save, we will use it later to configure the solution.
 
 ### Install and build the solution
-Go to the main directory of the solution open a command console in that directory and enter the command `npm i`. It will start the installation of the packages used by the solution which may take a few seconds.
+Go to the main directory of the solution and open a terminal window in that directory and enter the command `npm i`. It will start the installation of the packages used by the solution which may take a few seconds.
 
 |![npm i running](../common/images/installing.png)|
 |:--:|
 |*`npm i` command is running*|
 
->You can open a console in a particular directory by holding down the ***shift*** key and right clicking on an empty space and selecting the option `Open PowerShell window here`.
+>You can open a terminal in a particular directory by holding down the ***shift*** key and right clicking on an empty space and selecting the option `Open PowerShell window here`.
 >![Open PowerShell window here](images/open_console.png)
 
 Once finished you will notice that a directory called node_modules and a package-lock.json file have been created.
 
-In the same command prompt enter the following command: `npm run build`.
+In the same terminal enter the following command: `npm run build`.
 
 |![npm run build running](images/build.png)|
 |:--:|
-|*Console after enter the `npm run build` command*|
+|*Terminal after enter the `npm run build` command*|
 
-After a few seconds the build of the solution will be finished and a new `build` directory will be created in the root directory of the solution. The console will display a message like the following:
+After a few seconds the build of the solution will be finished and a new `build` directory will be created in the root directory of the solution. The terminal will display a message like the following:
 
-|![Console after finishing the build](images/build_finished.png)|
+|![Terminal after finishing the build](images/build_finished.png)|
 |:--:|
-|*Console after finishing the build*|
+|*Terminal after finishing the build*|
 
 ### Configure the solution
 
-In the Azure Portal, go to the App registration created above. Click on the menu option `Authentication` of the `Manage` section and Add a new [Redirect URI](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri) with the value of the `Primary endpoint` in the `Static website` menu of the Storage Account (e.g: `https://broadcaster-portal.z22.web.core.windows.net/`)
+#### Configure the App Registration
+
+In the Azure Portal, go to the App registration created above. Click on the menu option `Authentication` of the `Manage` section and Add a new [Redirect URI](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app#add-a-redirect-uri) with the value of the `Primary endpoint` of the `Static website` menu of the Storage Account, copied in a [previous section](#create-a-new-azure-storage-account). (e.g: `https://broadcast-portal.z22.web.core.windows.net/`)
+
+|![Add a Redirect URI](images/redirect_uri.png)|
+|:--:|
+|*Add a Redirect URI*|
+
+#### Configure CORS
+
+In the [App Service](https://github.com/southworks/project-canyon-dev/blob/documentation/docs/how-to-run-the-solution-in-azure/web_app_and_app_service_plan.md) created for the ManagementApi, go to the `CORS` menu in the `API` section and in `Allowed Origins` add a new item that has as value the `Primary endoint` of the static website.
+
+|![Add a new Allowed Origins value](images/CORS.png)|
+|:--:|
+|*Add the `Primary endpoint` as a new `Allowed Origins` value*|
+
+#### Setup the config.json file
 
 Open the `config.json` file located in the `build` folder of the solution's root directory (created in the [previous step](#build-the-solution)) and edit the following parameters:
 
@@ -117,7 +127,6 @@ Open the `config.json` file located in the `build` folder of the solution's root
 {
   "buildNumber": "0.0.0",
   "apiBaseUrl": "{{apiBaseUrl}}/api",
-  "releaseDummyVariable": "empty",
   "msalConfig": {
     "spaClientId": "{{spaClientId}}",
     "apiClientId": "{{apiClientId}}",
@@ -137,28 +146,22 @@ Open the `config.json` file located in the `build` folder of the solution's root
 
 Placeholder | Description 
 ---------|----------
- apiBaseUrl | Url on which the ManagementApi of the backend solution is listening.
- spaClientId | Client Id of the App Registration of this frontend solution.
- apiClientId | Client Id of the App Registration of the ManagementApi. 
- groupId | ObjectId of the group created on Azure. 
+ apiBaseUrl | [URL](https://github.com/microsoft/Teams-Broadcast-Extension/blob/documentation/docs/how-to-run-the-solution-in-azure/web_app_and_app_service_plan.md) on which the ManagementApi of the backend solution is listening.
+ spaClientId | Client Id of the [App Registration](#create-a-new-app-registration) of this frontend solution.
+ apiClientId | Client Id of the [App Registration](https://github.com/microsoft/Teams-Broadcast-Extension/blob/documentation/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-app-registration) of the ManagementApi. 
+ groupId | ObjectId of the [group](https://github.com/microsoft/Teams-Broadcast-Extension/blob/documentation/docs/how-to-run-the-solution-in-azure/security_group.md) created on Azure. 
  tenantId | Azure account Tenant Id.
  spaPrimaryEndpoint | `Primary endpoint` copied from `Static website` menu of Storage Account
 
-In the [App Service](https://github.com/southworks/project-canyon-dev/blob/documentation/docs/how-to-run-the-solution-in-azure/web_app_and_app_service_plan.md) created for the ManagementApi, go to the `CORS` menu in the `API` section and in `Allowed Origins` add a new item that has as value the `Primary endoint` of the static website.
-
-|![Add a new Allowed Origins value](images/CORS.png)|
-|:--:|
-|*Add the `Primary endpoint` as a new `Allowed Origins` value*|
-
 ### Upload the build to the storage container
 
-In the Azure Portal, in the created Storage Account go to the `Access keys` menu in the `Security + Networking` section, click on the `Show keys` button and copy the `Connection string`.
+Open the created Storage Account, go to the `Access keys` menu of the `Security + Networking` section, click on the `Show keys` button and copy the `Connection string`.
 
 |![Copy the Connection string](images/connection_string.png)|
 |:--:|
 |*Copy the `Connection string` of the Storage Account*|
 
-Install and open [Microsoft Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/) click on the Connect button, select `Storage account or service` then `Connection string (key o SAS)` and click `Next`. 
+Install and open [Microsoft Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/). After that, click on the Connect button, select `Storage account or service`, choose the `Connection string (key o SAS)` option and click `Next`. 
 
 |![Connect to the Storage Account](images/connect_storage_explorer.png)|
 |:--:|
@@ -179,9 +182,9 @@ Copy the files from the `build` folder generated by the solution and upload it t
 |*Drag the content of the `build` folder into the `$web` container*|
 
 ### Test the solution
-[Create](https://support.microsoft.com/en-us/office/schedule-a-meeting-in-teams-943507a9-8583-4c58-b5d2-8ec8265e04e5) a new microsoft teams meeting and join it.
+[Create](https://support.microsoft.com/en-us/office/schedule-a-meeting-in-teams-943507a9-8583-4c58-b5d2-8ec8265e04e5) a new Microsoft Teams meeting and join it.
 
-|![Microsoft Teams Invite Link](../common/images/invite_link.png)|
+|![Microsoft Teams invite link](../common/images/invite_link.png)|
 |:--:|
 |*Steps to copy the invite Link from Microsoft Teams*|
 
@@ -191,9 +194,9 @@ Enter the `Primary endpoint` of the `Static website` in a new browser tab. The w
 
 |![Web Portal login page](imagees/../images/web_portal_login.png)|
 |:--:|
-|*Web Portal login page*|
+|*web portal login page*|
 
-After log in, click on the `Join a Call` tab in the top menu, copy the Microsoft Teams Meeting Invitation Link to the `Invite URL` field and click on the `Join Call` button below.
+After log in, click on the `Join a Call` tab in the top menu, copy the Microsoft Teams meeting invitation link to the `Invite URL` field and click on the `Join Call` button below.
 
 |![Join call menu](../common/images/join_call.png)|
 |:--:|
