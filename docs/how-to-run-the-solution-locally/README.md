@@ -19,12 +19,12 @@ Go to the main directory of the solution open a terminal in that directory and e
 Once finished you will notice that a directory called node_modules and a package-lock.json file have been created.
 
 ### Configure the Solution
-To configure the solution open the `config.json` file located in the `public` folder of the solution's root directory and edit the following parameters:
+To configure the solution open the `config.json` file located in the `public` folder of the solution's root directory and replace with the following configuration:
 
 ```json
 {
   "buildNumber": "0.0.0",
-  "apiBaseUrl": "https://{{apiBaseUrl}}/api",
+  "apiBaseUrl": "https://localhost:8442/api",
   "msalConfig": {
     "spaClientId": "",
     "apiClientId": "",
@@ -41,11 +41,6 @@ To configure the solution open the `config.json` file located in the `public` fo
 }
 
 ```
-
-
-Placeholder | Description 
----------|----------
- apiBaseUrl | Url on which the ManagementApi of the backend solution is listening (e.g: `localhost:8442`)
 
 ### Run the Solution
 Once the solution is configured to run, go to the root directory of the solution, open a terminal and type the following command `npm run start`, a message like the following will appear and a new tab will open in the browser:
