@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CallDefaults } from '../../../models/calls/types';
 import BaseAction from '../../base/BaseAction';
 

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Row, Col, Button, Typography } from 'antd';

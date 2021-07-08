@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { createSelector, ParametricSelector } from "reselect";
 import IAppState from "../../services/store/IAppState";
 import { RequestingState } from "./reducer";

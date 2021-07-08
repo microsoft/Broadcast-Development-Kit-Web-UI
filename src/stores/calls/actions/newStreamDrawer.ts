@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { NewStreamDrawerOpenParameters } from "../../../models/calls/types";
 import BaseAction from "../../base/BaseAction";
 

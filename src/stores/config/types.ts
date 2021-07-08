@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface AppConfig {
   buildNumber: string;
   apiBaseUrl: string;

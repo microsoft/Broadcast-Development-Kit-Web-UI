@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export enum TeamsColors {
   Red = "#D74654",
   Purple = "#6264A7",

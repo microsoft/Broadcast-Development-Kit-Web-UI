@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { createSelector} from 'reselect';
 import { ActiveStatuses, Call, CallState, CallType, InactiveStatuses, SpecialStreamTypes, StreamProtocol, StreamType } from '../../models/calls/types';
 import IAppState from '../../services/store/IAppState';

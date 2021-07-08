@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import React, { Fragment } from 'react';
 import CallInfo from './components/CallInfo';
 import CallStreams from './components/CallStreams';

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import React, { ReactText, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Drawer, Button, Input, Radio, InputNumber, Alert, Switch, Select } from 'antd';

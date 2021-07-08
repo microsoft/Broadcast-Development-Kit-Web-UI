@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import Axios, { Method, AxiosRequestConfig } from 'axios';
 
 import { v4 as uuidv4 } from 'uuid';

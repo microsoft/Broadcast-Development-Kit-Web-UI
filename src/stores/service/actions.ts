@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ApiError, DefaultError } from "../../models/error/types";
 import { BotService } from "../../models/service/types";
 import { RequestResponse, Resource } from "../../services/api";

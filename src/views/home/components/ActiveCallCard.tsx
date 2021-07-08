@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import React from 'react';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Link } from 'react-router-dom';
