@@ -4,10 +4,6 @@ This repository contains a sample Web UI for the [Broadcast Development Kit](htt
 
 ![Screenshot of the web UI](docs/common/images/cover.png)
 
-## Getting started
-
-TBD
-
 ## Exploring the repository
 
 The repository is structured in the following directories:
@@ -17,7 +13,16 @@ The repository is structured in the following directories:
 
 ## Dependencies
 
-This is not an standalone application. It requires an instance of the [Broadcast Development Kit](https://github.com/microsoft/Teams-Broadcast-Extension) to work with. Check the documentation in that repository to run the **Broadcast Development Kit** (either locally or in the cloud) before using this application.
+- This is not an standalone application. It requires an instance of the [Broadcast Development Kit](https://github.com/microsoft/Teams-Broadcast-Extension) to work with. Check the documentation in that repository to run the **Broadcast Development Kit** (either locally or in the cloud) before using this application.
+- [Node JS and npm](docs/how-to-install-nodejs-and-npm/README.md)
+
+## How to run the solution locally
+To run the solution in a local environment please follow the guide listed below:
+- [How to run the solution locally](docs/how-to-run-the-solution-locally/README.md)
+
+## How to run the solution in Azure
+To run the solution in Azure please follow the guide listed below:
+- [How to run the solution in Azure](docs/how-to-run-the-solution-in-azure/README.md)
 
 ## Contributing
 
