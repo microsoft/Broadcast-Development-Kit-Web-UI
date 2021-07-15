@@ -1,6 +1,6 @@
 # Meeting App for the Broadcast Development Kit (WIP)
 
-This repository contains a sample Web UI for the [Broadcast Development Kit](https://github.com/microsoft/Teams-Broadcast-Extension) solution, developed as a single page application (SPA) in React and TypeScript.
+This repository contains a sample Web UI for the [Broadcast Development Kit](https://github.com/microsoft/Broadcast-Development-Kit) solution, developed as a single page application (SPA) in React and TypeScript.
 
 ![Screenshot of the web UI](docs/common/images/cover.png)
 
@@ -13,7 +13,7 @@ The repository is structured in the following directories:
 
 ## Dependencies
 
-- This is not an standalone application. It requires an instance of the [Broadcast Development Kit](https://github.com/microsoft/Teams-Broadcast-Extension) to work with. Check the documentation in that repository to run the **Broadcast Development Kit** (either locally or in the cloud) before using this application.
+- This is not an standalone application. It requires an instance of the [Broadcast Development Kit](https://github.com/microsoft/Broadcast-Development-Kit) to work with. Check the documentation in that repository to run the **Broadcast Development Kit** (either locally or in the cloud) before using this application.
 - [Node JS and npm](docs/how-to-install-nodejs-and-npm/README.md)
 
 ## How to run the solution locally

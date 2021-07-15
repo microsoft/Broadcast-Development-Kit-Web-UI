@@ -34,7 +34,7 @@ Create a new [App Registration](https://docs.microsoft.com/en-us/azure/active-di
 
   * `SAML`: Group ID. 
 
-* `API permissions`: Add the following permissions to this application. Note that the first permission is the API scope that was created for the [Management API](https://github.com/microsoft/Teams-Broadcast-Extension/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-application-registration) application. 
+* `API permissions`: Add the following permissions to this application. Note that the first permission is the API scope that was created for the [Management API](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-application-registration) application. 
 
 
 API / Permission name | Type | Admin consent
@@ -47,7 +47,7 @@ API / Permission name | Type | Admin consent
 
 * `App roles`: None. 
 
-After creating this App Registration copy the app ID and modify the Manifest of the App Registration created for the [Management API](https://github.com/microsoft/Teams-Broadcast-Extension/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-application-registration) adding the following property: 
+After creating this App Registration copy the app ID and modify the Manifest of the App Registration created for the [Management API](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-application-registration) adding the following property: 
  
 ```json
 "knownClientApplications": ["{{applicationId}}"] 
@@ -146,10 +146,10 @@ Open the `config.json` file located in the `build` folder of the solution's root
 
 Placeholder | Description 
 ---------|----------
- apiBaseUrl | [URL](https://github.com/microsoft/Teams-Broadcast-Extension/blob/main/docs/how-to-run-the-solution-in-azure/web_app_and_app_service_plan.md) on which the ManagementApi of the backend solution is listening.
+ apiBaseUrl | [URL](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/web_app_and_app_service_plan.md) on which the ManagementApi of the backend solution is listening.
  spaClientId | Client Id of the [App Registration](#create-a-new-app-registration) of this frontend solution.
- apiClientId | Client Id of the [App Registration](https://github.com/microsoft/Teams-Broadcast-Extension/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-app-registration) of the ManagementApi. 
- groupId | ObjectId of the [group](https://github.com/microsoft/Teams-Broadcast-Extension/blob/main/docs/how-to-run-the-solution-in-azure/security_group.md) created on Azure. 
+ apiClientId | Client Id of the [App Registration](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-app-registration) of the ManagementApi. 
+ groupId | ObjectId of the [group](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/security_group.md) created on Azure. 
  tenantId | Azure account Tenant Id.
  spaPrimaryEndpoint | `Primary endpoint` copied from `Static website` menu of Storage Account
 
