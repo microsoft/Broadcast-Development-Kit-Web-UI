@@ -16,7 +16,7 @@ interface InjectionCardProps {
 }
 
 const avatarSize = 112;
-const OBFUSCATION_PATTERN = "********";
+const OBFUSCATION_PATTERN = '********';
 
 const InjectionCard: React.FC<InjectionCardProps> = (props) => {
   const dispatch = useDispatch();
@@ -28,18 +28,17 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
 
   const startInjection = () => {
     if (callId) {
-      dispatch(openNewInjectionStreamDrawer({
-        callId
-      }));
+      dispatch(
+        openNewInjectionStreamDrawer({
+          callId,
+        })
+      );
     }
   };
 
   const stopInjection = () => {
     if (callId && streamId) {
-      dispatch(stopInjectionAsync(
-        callId,
-        streamId,
-      ))
+      dispatch(stopInjectionAsync(callId, streamId));
     }
   };
   const [audioMuted, setAudioMuted] = useState(false);
@@ -53,7 +52,7 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
 
   const classes = ['injectionCard', getConnectionClass(stream), expanded ? 'expanded' : ''];
   const status = getConnectionStatus(stream);
-  const injectionUrl = stream ? getInjectionUrl(stream) : "";
+  const injectionUrl = stream ? getInjectionUrl(stream) : '';
 
   const protocolText = () => {
     switch (stream?.protocol) {
@@ -78,13 +77,12 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
   };
 
   const toggleBotAudio = () => {
-    console.log('muted');
     if (callId) {
       if (!audioMuted) {
         dispatch(muteBotAsync(callId));
         setAudioMuted(true);
       } else {
-        dispatch(unmuteBotAsync(callId))
+        dispatch(unmuteBotAsync(callId));
         setAudioMuted(false);
       }
     }
@@ -109,9 +107,7 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
                   type="primary"
                   shape="round"
                   onClick={stream == null ? startInjection : stopInjection}
-                  disabled={
-                    !callStreams.callEnabled || stream?.state == StreamState.Starting
-                  }
+                  disabled={!callStreams.callEnabled || stream?.state == StreamState.Starting}
                 >
                   {stream == null ? 'START' : 'STOP'}
                 </Button>
@@ -132,17 +128,12 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
                 {stream.protocol === StreamProtocol.SRT && (
                   <>
                     <div>
-                      Passphrase:
-                      {
-                        <strong>
-                          <Typography.Text> {stream.passphrase == null ? 'None' : ''}</Typography.Text>
-                        </strong>
-                      }
-                      {stream.passphrase && (
-                        <strong>
-                          <Typography.Text copyable={{ text: stream.passphrase }}>{'********'}</Typography.Text>
-                        </strong>
-                      )}
+                      Passphrase:{' '}
+                      <strong>
+                        <Typography.Text copyable={stream.passphrase ? { text: stream.passphrase } : false}>
+                          {stream.passphrase ?  '********' : 'None'}
+                        </Typography.Text>
+                      </strong>
                     </div>
                     <div>
                       Latency: <strong>{stream.latency}ms</strong>
@@ -209,15 +200,12 @@ const getConnectionStatus = (stream: InjectionStream | null): string => {
 
 const getInjectionUrl = (stream: InjectionStream): string => {
   if (stream.protocol === StreamProtocol.RTMP && stream.injectionUrl) {
-    let rtmpUrl = stream.injectionUrl.replace(
-      stream.passphrase,
-      OBFUSCATION_PATTERN
-    );
+    const rtmpUrl = stream.injectionUrl.replace(stream.passphrase, OBFUSCATION_PATTERN);
 
     return rtmpUrl;
   }
 
-  return stream.injectionUrl ?? "";
+  return stream.injectionUrl ?? '';
 };
 
 export default InjectionCard;

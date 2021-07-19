@@ -128,9 +128,6 @@ const baseRequest = async <T>({
     return data as T;
   } catch (error) {
     //The request was made and the server responded with an status code different of 2xx
-    console.log({
-      error: JSON.stringify(error),
-    });
     if (error.response) {
       const { value } = error.response.data;
 

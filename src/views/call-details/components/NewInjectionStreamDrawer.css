@@ -61,3 +61,7 @@ height: 100%;
 .settingsText{
   width: 90%;
 }
+
+.KeyLengthSelect {
+  width: 300px;
+}

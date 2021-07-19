@@ -6,6 +6,7 @@ import {
   CallState,
   CallStreamKey,
   InjectionStream,
+  KeyLength,
   NewCall,
   NewInjectionStream,
   NewStream,
@@ -223,6 +224,7 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
           latency: call.defaultLatency,
           key: call.defaultPassphrase,
           unmixedAudio: false,
+          keyLength: call.defaultKeyLength,
         },
       },
     };
@@ -297,6 +299,7 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
       defaultProtocol: defaults.protocol,
       defaultLatency: defaults.latency ?? call.defaultLatency,
       defaultPassphrase: defaults.passphrase ?? call.defaultPassphrase,
+      defaultKeyLength : defaults.keyLength ?? call.defaultKeyLength,
     };
 
     return {
@@ -336,12 +339,14 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
 const defaultCallValues = {
   defaultLatency: 750,
   defaultPassphrase: '',
+  defaultKeyLength: KeyLength.None,
 };
 
 const fillDefaults = (call: Call, defaults: Partial<Call>): Call => ({
   ...call,
   defaultLatency: defaults.defaultLatency ?? defaultCallValues.defaultLatency,
   defaultPassphrase: defaults.defaultPassphrase ?? defaultCallValues.defaultPassphrase,
+  defaultKeyLength: defaults.defaultKeyLength ?? defaultCallValues.defaultKeyLength,
   defaultProtocol: defaults.defaultProtocol ?? StreamProtocol.SRT,
   streams: call.streams
     ? call.streams.map((o) => ({

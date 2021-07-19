@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { createSelector} from 'reselect';
-import { ActiveStatuses, Call, CallState, CallType, InactiveStatuses, SpecialStreamTypes, StreamProtocol, StreamType } from '../../models/calls/types';
+import { ActiveStatuses, Call, CallState, CallType, InactiveStatuses, KeyLength, SpecialStreamTypes, StreamProtocol, StreamType } from '../../models/calls/types';
 import IAppState from '../../services/store/IAppState';
 import { CallInfoProps, CallStreamsProps, NewInjectionStreamDrawerProps, NewStreamDrawerProps } from '../../views/call-details/types';
 import { ICallsState } from './reducer';
@@ -110,7 +110,7 @@ function _selectNewStreamDrawerProps(callState: ICallsState, callId: string): Ne
 
 function _selectCallInfoProps(callState: ICallsState, callId: string): CallInfoProps {
   const call = callState.activeCalls.find((o) => o.id === callId);
-  console.log('streams:', call?.streams.length);
+
   if (!call) {
     return {
       call: {
@@ -139,6 +139,7 @@ const CALL_INITIALIZING_PLACEHOLDER: Call = {
   defaultProtocol: StreamProtocol.SRT,
   defaultLatency: 0,
   defaultPassphrase: '',
+  defaultKeyLength: KeyLength.None,
   errorMessage: null,
   joinUrl: '',
   state: CallState.Establishing,

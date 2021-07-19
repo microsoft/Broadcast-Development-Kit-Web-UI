@@ -13,6 +13,7 @@ export interface Call {
   connectionPool: ConnectionPool;
   defaultProtocol: StreamProtocol;
   defaultPassphrase: string;
+  defaultKeyLength: KeyLength;
   defaultLatency: number;
   streams: Stream[];
   injectionStream: InjectionStream | null;
@@ -83,6 +84,7 @@ export interface NewInjectionStream {
   mode?: StreamMode;
   latency?: number;
   enableSsl?: boolean;
+  keyLength?: KeyLength;
 }
 
 export interface StopInjectionRequest {
@@ -101,6 +103,7 @@ export type StreamConfiguration = {
 export interface StreamSrtConfiguration extends StreamConfiguration {
   mode: StreamMode;
   latency: number;
+  keyLength: KeyLength;
 }
 
 export interface NewCall {
@@ -113,6 +116,7 @@ export interface CallDefaults {
   protocol: StreamProtocol;
   latency: number;
   passphrase: string;
+  keyLength: KeyLength;
 }
 
 export enum StreamState {
@@ -142,6 +146,13 @@ export enum StreamMode {
   Listener = 2,
 }
 
+export enum KeyLength {
+  None = 0,
+  SixteenBytes = 16,
+  TwentyFourBytes = 24,
+  ThirtyTwoBytes = 32,
+}
+
 export interface NewStream {
   callId: string;
   participantId?: string;
@@ -153,6 +164,7 @@ export interface NewStream {
     latency?: number;
     key?: string;
     unmixedAudio: boolean;
+    keyLength?: KeyLength;
   };
 }
 
@@ -178,6 +190,7 @@ export interface InjectionStream {
   latency: number;
   passphrase: string;
   audioMuted: boolean;
+  keylength: KeyLength;
 }
 
 export interface NewStreamDrawerOpenParameters {

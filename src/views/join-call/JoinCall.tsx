@@ -35,7 +35,6 @@ const JoinCall: React.FC = (props) => {
       const links = extractLinks(html);
       const meetingLink = links.find((o) => MEETING_URL_PATTERN.test(o));
       if (meetingLink) {
-        console.log(meetingLink);
         setTimeout(() => formRef.current?.setFieldsValue({ callUrl: meetingLink }), 1);
       }
     }
@@ -43,8 +42,6 @@ const JoinCall: React.FC = (props) => {
 
   // When form is completed correctly
   const onFinish = (form: Store) => {
-    console.log("form", form);
-
     // Trigger JoinCall AsyncAction
     dispatch(joinCallAsync(form.callUrl));
   };

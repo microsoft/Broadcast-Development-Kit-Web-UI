@@ -4,7 +4,7 @@ import React, { useEffect, useState, createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import moment from 'moment';
-import { Radio, Button, Badge, Typography, Form, Input, InputNumber, Popconfirm } from 'antd';
+import { Radio, Button, Badge, Typography, Form, Input, InputNumber, Popconfirm, Select } from 'antd';
 import { Rule, FormInstance } from 'antd/lib/form';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
@@ -24,6 +24,7 @@ import {
   StreamProtocol,
   StreamState,
   StreamType,
+  KeyLength,
 } from '../../../models/calls/types';
 import { updateCallDefaults } from '../../../stores/calls/actions';
 import { CallInfoProps } from '../types';
@@ -35,16 +36,30 @@ const CallInfo: React.FC = () => {
   const dispatch = useDispatch();
   const { id: callId } = useParams<{ id: string }>();
   const callInfoProps: CallInfoProps = useSelector((state: IAppState) => selectCallInfoProps(state, callId));
-  // disconnect
+  const [passphrase, setPassphrase] = React.useState('');
+  // edit state
+  const [editingDefaults, setEditingDefaults] = useState(false);
+  const [editingProtocol, setEditingProtocol] = useState(callInfoProps.call?.defaultProtocol ?? StreamProtocol.SRT);
+  const [editingKeyLength, setEditingKeyLength] = useState(
+    callInfoProps.call?.defaultKeyLength ?? KeyLength.None
+  );
+
+  const toggleEditMode = () => setEditingDefaults(!editingDefaults);
+
   const disconnect = () => {
-    console.log('disconnect');
     dispatch(disconnectCallAsync(callId));
   };
+
+  const getKeyLengthValues = () => {
+    return Object.keys(KeyLength).filter((k) => typeof KeyLength[k as any] !== 'number');
+  };
+
+  const onChangePassphrase = (value: any) => setPassphrase(value.target.value);
+  const onchangeKeyLength = (e: number) => setEditingKeyLength(e);
 
   // update settings
   const onDefaultsUpdated = (newDefaults: unknown) => {
     // invoke an asyncAction that will update on API
-    console.log('newDefaults', newDefaults);
 
     dispatch(
       updateCallDefaults({
@@ -56,11 +71,6 @@ const CallInfo: React.FC = () => {
     toggleEditMode();
   };
 
-  // edit state
-  const [editingDefaults, setEditingDefaults] = useState(false);
-  const [editingProtocol, setEditingProtocol] = useState(callInfoProps.call?.defaultProtocol ?? StreamProtocol.SRT);
-  const toggleEditMode = () => setEditingDefaults(!editingDefaults);
-
   const formRef = createRef<FormInstance>();
   useEffect(() => {
     if (callInfoProps.call)
@@ -68,6 +78,7 @@ const CallInfo: React.FC = () => {
         protocol: callInfoProps.call.defaultProtocol,
         latency: callInfoProps.call.defaultLatency,
         passphrase: callInfoProps.call.defaultPassphrase,
+        keyLength: callInfoProps.call.defaultKeyLength,
       });
   }, [callInfoProps.call?.id, editingDefaults]);
 
@@ -105,6 +116,7 @@ const CallInfo: React.FC = () => {
           ...baseRules,
           latency: [{ type: 'integer', required: true } as Rule],
           passphrase: [{ type: 'string' } as Rule],
+          keyLength: [{ type: 'integer', required: true } as Rule],
         };
 
   const hasActiveStreams = callInfoProps.streams.find(
@@ -183,9 +195,21 @@ const CallInfo: React.FC = () => {
                         </strong>
                       </span>
                       {callInfoProps.call.defaultPassphrase && (
-                        <span className="CallInfoProperty">
-                          <Text copyable={{ text: callInfoProps.call.defaultPassphrase }}>Default passphrase</Text>
-                        </span>
+                        <>
+                          <span className="CallInfoProperty">
+                            <Text copyable={{ text: callInfoProps.call.defaultPassphrase }}>Default passphrase</Text>
+                          </span>
+                          <span className="CallInfoProperty">
+                            Default Key Length:&nbsp;
+                            <strong>
+                              <Text>
+                                {callInfoProps.call.defaultKeyLength
+                                  ? `${callInfoProps.call.defaultKeyLength} bytes`
+                                  : 'no-key'}
+                              </Text>
+                            </strong>
+                          </span>
+                        </>
                       )}
                     </>
                   )}
@@ -231,6 +255,7 @@ const CallInfo: React.FC = () => {
                           <Item label="Latency:" name="latency" rules={rules.latency} labelAlign="left" hasFeedback>
                             <InputNumber min={1} max={2000} placeholder="(ms)" />
                           </Item>
+
                           <Item
                             label="Passphrase:"
                             name="passphrase"
@@ -238,7 +263,17 @@ const CallInfo: React.FC = () => {
                             labelAlign="left"
                             hasFeedback
                           >
-                            <Input.Password />
+                            <Input.Password onChange={onChangePassphrase} />
+                          </Item>
+
+                          <Item label="Key Length" name="keyLength">
+                            <Select disabled={!passphrase} onChange={onchangeKeyLength} value={editingKeyLength}>
+                              {getKeyLengthValues().map((value) => (
+                                <Select.Option key={value} value={parseInt(value)}>
+                                  {parseInt(value) ? `${value} bytes` : 'no-key'}
+                                </Select.Option>
+                              ))}
+                            </Select>
                           </Item>
                         </>
                       ),

@@ -276,7 +276,8 @@ export const startStreamAsync = ({callId, participantId, protocol, config} : Sta
         streamUrl: config.streamUrl || null,
         streamKey: config.streamKey || null,
         timeOverlay: config.timeOverlay,
-        audioFormat: config.audioFormat
+        audioFormat: config.audioFormat,
+        keyLength: (config as StreamSrtConfiguration).keyLength
       },
       isSecured: true
     });
@@ -332,9 +333,7 @@ export const getActiveCallsAsync = () : ThunkAction < void,
     dispatch(requestActiveCalls());
 
     const activeCallsResponse = await ApiClient.get<Call[]>({url: '/call/active', isSecured: true});
-    console.log({
-      activeCallsResponse
-    })
+
     dispatch(requestActiveCallsFinished({payload: activeCallsResponse}));
   };
 
@@ -360,7 +359,8 @@ export const startInjectionAsync = ({
     protocol,
     mode,
     latency,
-    enableSsl
+    enableSsl,
+    keyLength
   } : NewInjectionStream) : ThunkAction < void,
   IAppState,
   undefined,
@@ -378,7 +378,8 @@ export const startInjectionAsync = ({
         protocol,
         mode,
         latency,
-        enableSsl
+        enableSsl,
+        keyLength
       }
     });
 

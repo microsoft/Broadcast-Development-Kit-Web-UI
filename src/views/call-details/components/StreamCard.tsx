@@ -17,8 +17,6 @@ import { CallStreamsProps } from '../types';
 import { ApiClient } from '../../../services/api';
 import { ApiError } from '../../../models/error/types';
 
-const { Text } = Typography;
-
 interface StreamCardProps {
   callProtocol: StreamProtocol;
   stream: Stream;
@@ -40,7 +38,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
         isSecured: true,
         shouldOverrideBaseUrl: true,
         config: {
-          responseType: "blob",
+          responseType: 'blob',
         },
       }).then((response) => {
         const isError = response instanceof ApiError;
@@ -49,10 +47,6 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
           console.error(error.raw);
           return;
         }
-
-        console.log({
-          response,
-        });
 
         const urlCreator = window.URL || window.webkitURL;
         const imageUrl = urlCreator.createObjectURL(response);
@@ -74,21 +68,25 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
     }
 
     if (isStreamDisconnected) {
-      dispatch(openNewStreamDrawer({
-        callId: callStreams.callId,
-        streamType: stream.type,
-        participantId: stream.id,
-        participantName: stream.displayName,
-      }))
+      dispatch(
+        openNewStreamDrawer({
+          callId: callStreams.callId,
+          streamType: stream.type,
+          participantId: stream.id,
+          participantName: stream.displayName,
+        })
+      );
     }
 
     if (!isStreamDisconnected) {
-      dispatch(stopStreamAsync({
-        callId: callStreams.callId,
-        type: stream.type,
-        participantId: stream.id,
-        participantName: stream.displayName,
-      }))
+      dispatch(
+        stopStreamAsync({
+          callId: callStreams.callId,
+          type: stream.type,
+          participantId: stream.id,
+          participantName: stream.displayName,
+        })
+      );
     }
   };
 
@@ -114,6 +112,8 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
   ) : (
     <>{initials}</>
   );
+
+  const isRtmp = protocol === StreamProtocol.RTMP;
 
   return (
     <div className={classes.join(' ')}>
@@ -154,27 +154,19 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
                     <Typography.Text copyable>{stream.details.streamUrl}</Typography.Text>
                   </strong>
                 </div>
+
                 <div>
-                  Audio Stream: <strong>{stream.details.audioDemuxed ? 'Demuxed' : 'Muxed'}</strong>
+                  {isRtmp ? 'StreamKey: ' : 'Passphrase: '}
+                  <strong>
+                    <Typography.Text copyable={stream.details.passphrase ? { text: stream.details.passphrase } : false}>
+                      {stream.details.passphrase ? '********' : 'None'}
+                    </Typography.Text>
+                  </strong>
                 </div>
-                {protocol === StreamProtocol.RTMP ? (
+                
+                {!isRtmp && (
                   <div>
-                    StreamKey:{' '}
-                    <strong>
-                      <Typography.Text copyable>{stream.details.passphrase}</Typography.Text>
-                    </strong>
-                  </div>
-                ) : (
-                  <div>
-                    <div>
-                      Passphrase:{' '}
-                      <strong>
-                        <Typography.Text copyable>{stream.details.passphrase}</Typography.Text>
-                      </strong>
-                    </div>
-                    <div>
-                      Latency: <strong>{stream.details.latency}ms</strong>
-                    </div>
+                    Latency: <strong>{stream.details.latency}ms</strong>
                   </div>
                 )}
               </>

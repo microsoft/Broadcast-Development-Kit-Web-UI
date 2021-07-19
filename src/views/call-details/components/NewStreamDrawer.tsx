@@ -7,7 +7,15 @@ import IAppState from '../../../services/store/IAppState';
 import './NewStreamDrawer.css';
 import { selectNewStreamDrawerProps } from '../../../stores/calls/selectors';
 import { useParams } from 'react-router-dom';
-import { StartStreamRequest, StreamConfiguration, StreamMode, StreamProtocol, StreamSrtConfiguration, StreamType } from '../../../models/calls/types';
+import {
+  StartStreamRequest,
+  StreamConfiguration,
+  StreamMode,
+  StreamProtocol,
+  StreamSrtConfiguration,
+  StreamType,
+  KeyLength,
+} from '../../../models/calls/types';
 import { closeNewStreamDrawer } from '../../../stores/calls/actions';
 import { startStreamAsync } from '../../../stores/calls/asyncActions';
 
@@ -30,6 +38,7 @@ interface DrawerState {
   unmixedAudio?: boolean;
   audioFormat?: number;
   timeOverlay?: boolean;
+  keyLength?: KeyLength;
 }
 
 const NewStreamDrawer: React.FC = () => {
@@ -42,7 +51,7 @@ const NewStreamDrawer: React.FC = () => {
   //Warning! It wasn't tested with nested objects
   const [state, setState] = useReducer(
     (state: DrawerState, newState: Partial<DrawerState>) => ({ ...state, ...newState }),
-    { viewMode: ViewMode.Simple,}
+    { viewMode: ViewMode.Simple }
   );
 
   const loadDefaultSettings = () => {
@@ -54,10 +63,11 @@ const NewStreamDrawer: React.FC = () => {
     const unmixedAudio = drawerProps.newStream?.advancedSettings.unmixedAudio;
     const audioFormat = 0;
     const timeOverlay = true;
-    
-    setState({ protocol, passphrase, latency, url, mode, unmixedAudio, audioFormat, timeOverlay });
+    const keyLength = drawerProps.newStream?.advancedSettings.keyLength || KeyLength.None;
+
+    setState({ protocol, passphrase, latency, url, mode, unmixedAudio, audioFormat, timeOverlay, keyLength });
   };
-  
+
   const handleChange = (e: any) => {
     setState({ [e.target.name]: e.target.value });
   };
@@ -93,16 +103,20 @@ const NewStreamDrawer: React.FC = () => {
     dispatch(startStreamAsync(newStream));
   };
 
-  const handleUnmixedAudioChange = (e: any) => {
-    setState({ unmixedAudio: e.target.value });
-  };
-
   const handleAudioFormatChange = (value: any) => {
     setState({ audioFormat: value });
   };
 
   const handleTimeOverlayChange = (checked: boolean) => {
     setState({ timeOverlay: checked });
+  };
+
+  const handleKeyLengthSelect = (keyLength: number) => {
+    setState({ keyLength });
+  };
+
+  const getKeyLengthValues = () => {
+    return Object.keys(KeyLength).filter((k) => typeof KeyLength[k as any] !== 'number');
   };
 
   const getStreamConfiguration = (state: DrawerState) => {
@@ -116,6 +130,7 @@ const NewStreamDrawer: React.FC = () => {
           unmixedAudio: state.unmixedAudio,
           audioFormat: state.audioFormat,
           timeOverlay: state.timeOverlay,
+          keyLength: state.passphrase ? state.keyLength : KeyLength.None,
         } as StreamSrtConfiguration;
       case StreamProtocol.RTMP:
         return {
@@ -131,28 +146,9 @@ const NewStreamDrawer: React.FC = () => {
   };
 
   const renderCommonSettings = () => {
-    const demuxedWarning = (
-      <span>
-        Forces to capture this participant&apos;s audio stream.
-        <br />
-        <strong>If the audio is not available at any moment, no audio will be streamed.</strong>
-      </span>
-    );
-
     return (
       <>
         <div className="NewStreamSettingBox">
-          <span className="NewStreamSettingText">Audio settings</span>
-          <div className="NewStreamSettingControl">
-            <span className="NewStreamSettingTopLabel">Audio capture mode</span>
-            <Radio.Group value={state.unmixedAudio} onChange={handleUnmixedAudioChange}>
-              <Radio.Button value={false}>Mixed audio</Radio.Button>
-              <Radio.Button value={true}>Only Participant&apos;s audio</Radio.Button>
-            </Radio.Group>
-            {state.unmixedAudio ? (
-              <Alert style={{ marginTop: '5%' }} message={demuxedWarning} type="warning" showIcon />
-            ) : null}
-          </div>
           <div className="NewStreamSettingControl">
             <span className="NewStreamSettingTopLabel">Audio format</span>
             <Select value={state.audioFormat} onChange={handleAudioFormatChange}>
@@ -172,144 +168,158 @@ const NewStreamDrawer: React.FC = () => {
     );
   };
 
-  return(
+  return (
     <Drawer
-    destroyOnClose={true}
-    title="Add a new stream"
-    visible={visible}
-    afterVisibleChange={loadDefaultSettings}
-    width={'30%'}
-    bodyStyle={{ height: 400 }}
-    onClose={handleClose}
-    footer={
-      <div id="NewStreamDrawerFooter">
-        <div id="NewStreamDrawerFooterInner">
-          <Button onClick={handleSave} className="DrawerButton" type="primary">
-            Start
-          </Button>
-          <Button onClick={handleClose} className="DrawerButton" type="default">
-            Cancel
-          </Button>
-        </div>
-      </div>
-    }
-  >
-    <div id="NewStreamDrawerBody">
-      <div>
-        <span className="selectedFlowText">Selected flow:</span>
-        <p>{`Following ${drawerProps.newStream?.participantName}`}</p>
-      </div>
-
-      {state.protocol === StreamProtocol.SRT && (
-        <>
-          <div className="NewStreamSettingBox">
-            <div>
-              <Radio.Group name="viewMode" value={state.viewMode} onChange={handleChange}>
-                <Radio.Button value={ViewMode.Simple}>Default settings</Radio.Button>
-                <Radio.Button value={ViewMode.Advanced}>Advanced settings</Radio.Button>
-              </Radio.Group>
-            </div>
+      destroyOnClose={true}
+      title="Add a new stream"
+      visible={visible}
+      afterVisibleChange={loadDefaultSettings}
+      width={'30%'}
+      bodyStyle={{ height: 400 }}
+      onClose={handleClose}
+      footer={
+        <div id="NewStreamDrawerFooter">
+          <div id="NewStreamDrawerFooterInner">
+            <Button onClick={handleSave} className="DrawerButton" type="primary">
+              Start
+            </Button>
+            <Button onClick={handleClose} className="DrawerButton" type="default">
+              Cancel
+            </Button>
           </div>
+        </div>
+      }
+    >
+      <div id="NewStreamDrawerBody">
+        <div>
+          <span className="selectedFlowText">Selected flow:</span>
+          <p>{`Following ${drawerProps.newStream?.participantName}`}</p>
+        </div>
 
-          {state.viewMode === ViewMode.Advanced ? (
-            <div>
-              <div className="NewStreamSettingBox">
-                <span className="NewStreamSettingText">Mode</span>
-                <div>
-                  <Radio.Group name="mode" value={state.mode} onChange={handleChange}>
-                    <Radio.Button value={StreamMode.Listener}>Listener</Radio.Button>
-                    <Radio.Button value={StreamMode.Caller}>Caller</Radio.Button>
-                  </Radio.Group>
-                </div>
+        {state.protocol === StreamProtocol.SRT && (
+          <>
+            <div className="NewStreamSettingBox">
+              <div>
+                <Radio.Group name="viewMode" value={state.viewMode} onChange={handleChange}>
+                  <Radio.Button value={ViewMode.Simple}>Default settings</Radio.Button>
+                  <Radio.Button value={ViewMode.Advanced}>Advanced settings</Radio.Button>
+                </Radio.Group>
               </div>
+            </div>
 
-              {state.mode === StreamMode.Caller ? (
+            {state.viewMode === ViewMode.Advanced ? (
+              <div>
                 <div className="NewStreamSettingBox">
-                  <span className="NewStreamSettingText">Insert your SRT URL</span>
+                  <span className="NewStreamSettingText">Mode</span>
                   <div>
-                    <Input
+                    <Radio.Group name="mode" value={state.mode} onChange={handleChange}>
+                      <Radio.Button value={StreamMode.Listener}>Listener</Radio.Button>
+                      <Radio.Button value={StreamMode.Caller}>Caller</Radio.Button>
+                    </Radio.Group>
+                  </div>
+                </div>
+
+                {state.mode === StreamMode.Caller ? (
+                  <div className="NewStreamSettingBox">
+                    <span className="NewStreamSettingText">Insert your SRT URL</span>
+                    <div>
+                      <Input
+                        className="NewStreamInput"
+                        placeholder="Stream url"
+                        name="url"
+                        value={state.url}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className="NewStreamSettingBox">
+                  <span className="NewStreamSettingText">Latency</span>
+                  <div>
+                    <InputNumber
                       className="NewStreamInput"
-                      placeholder="Stream url"
-                      name="url"
-                      value={state.url}
+                      min={0}
+                      defaultValue={0}
+                      name="latency"
+                      value={state.latency}
+                      onChange={handleLatencyChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="NewStreamSettingBox">
+                  <span className="NewStreamSettingText">Passphrase</span>
+                  <div>
+                    <Input.Password
+                      className="NewStreamInput"
+                      min={0}
+                      defaultValue={0}
+                      name="passphrase"
+                      value={state.passphrase}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
-              ) : null}
 
-              <div className="NewStreamSettingBox">
-                <span className="NewStreamSettingText">Latency</span>
-                <div>
-                  <InputNumber
+                <div className="NewStreamSettingBox">
+                  <span className="NewStreamSettingText">Key Length</span>
+                  <Select
                     className="NewStreamInput"
-                    min={0}
-                    defaultValue={0}
-                    name="latency"
-                    value={state.latency}
-                    onChange={handleLatencyChange}
-                  />
+                    value={state.keyLength || KeyLength.None}
+                    onChange={handleKeyLengthSelect}
+                    disabled={!state.passphrase}
+                  >
+                    {getKeyLengthValues().map((value) => (
+                      <Select.Option key={value} value={parseInt(value)}>{parseInt(value) ? `${value} bytes` : 'no-key'}</Select.Option>
+                    ))}
+                  </Select>
+                </div>
+
+                {renderCommonSettings()}
+              </div>
+            ) : (
+              <div>
+                <div className="NewStreamSettingBox settingsText">
+                  <span className="NewStreamSettingText">
+                    By pressing &quot;Start&quot; a new stream will be created with the default settings set for this
+                    call. To edit them, switch to advanced.
+                  </span>
                 </div>
               </div>
+            )}
+          </>
+        )}
 
-              <div className="NewStreamSettingBox">
-                <span className="NewStreamSettingText">Passphrase</span>
-                <div>
-                  <Input.Password
-                    className="NewStreamInput"
-                    min={0}
-                    defaultValue={0}
-                    name="passphrase"
-                    value={state.passphrase}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-
-              {renderCommonSettings()}
-            </div>
-          ) : (
-            <div>
-              <div className="NewStreamSettingBox settingsText">
-                <span className="NewStreamSettingText">
-                  By pressing &quot;Start&quot; a new stream will be created with the default settings set for this
-                  call. To edit them, switch to advanced.
-                </span>
+        {state.protocol === StreamProtocol.RTMP && (
+          <>
+            <div className="NewStreamSettingBox">
+              <span className="NewStreamSettingText">Stream Url</span>
+              <div>
+                <Input className="NewStreamInput" name="url" value={state.url} onChange={handleChange} />
               </div>
             </div>
-          )}
-        </>
-      )}
 
-      {state.protocol === StreamProtocol.RTMP && (
-        <>
-          <div className="NewStreamSettingBox">
-            <span className="NewStreamSettingText">Stream Url</span>
-            <div>
-              <Input className="NewStreamInput" name="url" value={state.url} onChange={handleChange} />
+            <div className="NewStreamSettingBox">
+              <span className="NewStreamSettingText">Stream Key</span>
+              <div>
+                <Input.Password
+                  className="NewStreamInput"
+                  min={0}
+                  defaultValue={0}
+                  name="passphrase"
+                  value={state.passphrase}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="NewStreamSettingBox">
-            <span className="NewStreamSettingText">Stream Key</span>
-            <div>
-              <Input.Password
-                className="NewStreamInput"
-                min={0}
-                defaultValue={0}
-                name="passphrase"
-                value={state.passphrase}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          {renderCommonSettings()}
-        </>
-      )}
-    </div>
-  </Drawer>
-  )
-}
+            {renderCommonSettings()}
+          </>
+        )}
+      </div>
+    </Drawer>
+  );
+};
 
 export default NewStreamDrawer;
