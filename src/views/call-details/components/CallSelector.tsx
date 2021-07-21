@@ -49,7 +49,7 @@ const CallSelector: React.FC<ICallSelectorProps> = (props) => {
   return (
     <Select defaultValue={selectedId} className="CallSetting" onChange={handleCallSelect}>
       <Option value={PLACEHOLDER_ID}><i>(Select a call)</i></Option>
-      {props.calls.map(m => (<Option key={m.id} value={m.id}>{m.name || 'Teams TX Demo'}</Option>))}
+      {props.calls.map(m => (<Option key={m.id} value={m.id}>{m.name || 'Broadcast Development Kit Demo'}</Option>))}
       <Option value={NEW_PLACEHOLDER_ID}><strong>(Join a new Call)</strong></Option>
     </Select>
   )
