@@ -4,7 +4,7 @@ This is a **PRE-RELEASE** project and is still in development. This project uses
 
 The code in this repository is provided "AS IS", without any warranty of any kind. Check the [LICENSE](LICENSE) for more information.
 
-# Web UI for the Broadcast Development Kit (WIP)
+# Web UI for the Broadcast Development Kit
 
 This repository contains a sample Web UI for the [Broadcast Development Kit](https://github.com/microsoft/Broadcast-Development-Kit) solution, developed as a single page application (SPA) in React and TypeScript.
 
