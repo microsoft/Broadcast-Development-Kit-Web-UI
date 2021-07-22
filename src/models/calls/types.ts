@@ -48,6 +48,7 @@ export interface Stream {
   participantGraphId: string; //id form teams meeting
   displayName: string; // User name or Stream name
   photoUrl: string | null;
+  photo: string | undefined;
   type: StreamType; // VbSS, DominantSpeaker, Participant
   state: StreamState; // Disconnected, Initializing, Established, Disconnecting, Error
   isHealthy: boolean;
