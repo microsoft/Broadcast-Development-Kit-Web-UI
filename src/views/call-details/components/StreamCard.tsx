@@ -103,7 +103,10 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
       (stream.state === StreamState.Disconnected &&
         ((stream.type === StreamType.VbSS && callStreams.stageEnabled) ||
           (stream.type === StreamType.PrimarySpeaker && callStreams.primarySpeakerEnabled) ||
-          (stream.type === StreamType.Participant && stream.isSharingVideo))));
+          ([StreamType.Participant, 
+            StreamType.LargeGallery, 
+            StreamType.LiveEvent, 
+            StreamType.TogetherMode].includes(stream.type) && stream.isSharingVideo))));
 
   const classes = ['streamCard', getConnectionClass(stream), expanded ? 'expanded' : ''];
   const avatarSize = 112;
@@ -163,7 +166,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
                     </Typography.Text>
                   </strong>
                 </div>
-                
+
                 {!isRtmp && (
                   <div>
                     Latency: <strong>{stream.details.latency}ms</strong>
