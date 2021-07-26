@@ -111,7 +111,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
   const classes = ['streamCard', getConnectionClass(stream), expanded ? 'expanded' : ''];
   const avatarSize = 112;
   const avatarIcon = stream.photo ? (
-    <img src={stream.photo} style={{ width: avatarSize, height: avatarSize }} onError={() => stream.photo} />
+    <img src={stream.photo} style={{ width: avatarSize, height: avatarSize }} onError={() => dispatch(updateStreamPhoto(stream.id, '', callStreams.callId))} />
   ) : (
     <>{initials}</>
   );
