@@ -14,3 +14,4 @@ export * from './unmuteBot';
 export * from './newInjectionStreamDrawer';
 export * from './updateDefaults';
 export * from './refreshStreamKey';
+export * from './updateStreamPhoto';

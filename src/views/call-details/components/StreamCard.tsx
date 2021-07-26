@@ -11,7 +11,7 @@ import ScreenShare from '@material-ui/icons/ScreenShare';
 import StopScreenShare from '@material-ui/icons/StopScreenShare';
 import './StreamCard.css';
 import { Stream, StreamProtocol, StreamState, StreamType } from '../../../models/calls/types';
-import { openNewStreamDrawer } from '../../../stores/calls/actions';
+import { openNewStreamDrawer, updateStreamPhoto } from '../../../stores/calls/actions';
 import { stopStreamAsync } from '../../../stores/calls/asyncActions';
 import { CallStreamsProps } from '../types';
 import { ApiClient } from '../../../services/api';
@@ -29,10 +29,9 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
   const { callProtocol: protocol, stream, callStreams } = props;
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => setExpanded(!expanded);
-  const [avatartImage, setAvatartImage] = useState('');
 
   useEffect(() => {
-    if (stream.photoUrl) {
+    if (stream.photoUrl && stream.photo === undefined) {
       ApiClient.get<any>({
         url: stream.photoUrl,
         isSecured: true,
@@ -45,12 +44,13 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
         if (isError) {
           const error = response as ApiError;
           console.error(error.raw);
+          dispatch(updateStreamPhoto(stream.id, '', callStreams.callId));
           return;
         }
 
         const urlCreator = window.URL || window.webkitURL;
         const imageUrl = urlCreator.createObjectURL(response);
-        setAvatartImage(imageUrl);
+        dispatch(updateStreamPhoto(stream.id, imageUrl, callStreams.callId));
       });
     }
   }, []);
@@ -110,8 +110,8 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
 
   const classes = ['streamCard', getConnectionClass(stream), expanded ? 'expanded' : ''];
   const avatarSize = 112;
-  const avatarIcon = avatartImage ? (
-    <img src={avatartImage} style={{ width: avatarSize, height: avatarSize }} onError={() => setAvatartImage('')} />
+  const avatarIcon = stream.photo ? (
+    <img src={stream.photo} style={{ width: avatarSize, height: avatarSize }} onError={() => dispatch(updateStreamPhoto(stream.id, '', callStreams.callId))} />
   ) : (
     <>{initials}</>
   );

@@ -43,12 +43,15 @@ export const INITIAL_STATE: ICallsState = {
 */
 
 export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
-  [CallsActions.REQUEST_ACTIVE_CALLS_FINISHED](state: ICallsState, action: CallsActions.RequestActiveCallsFinished): ICallsState {
+  [CallsActions.REQUEST_ACTIVE_CALLS_FINISHED](
+    state: ICallsState,
+    action: CallsActions.RequestActiveCallsFinished
+  ): ICallsState {
     const calls = action.payload! as Call[];
     return {
       ...state,
       activeCalls: calls.map((call) => fillDefaults(call, defaultCallValues)),
-    }
+    };
   },
   [CallsActions.REQUEST_JOIN_CALL](state: ICallsState, action: CallsActions.RequestJoinCall): ICallsState {
     return {
@@ -160,9 +163,11 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
     */
 
     const resource = action.payload! as Resource<Stream>;
+    const activeCall = state.activeCalls.find((call: Call) => call.id === resource.resource.callId);
 
     const updatedStream: Stream = {
       ...resource.resource,
+      photo: activeCall?.streams.find((stream: Stream) => stream.id === resource.resource.id)?.photo,
     };
 
     return {
@@ -188,9 +193,11 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
     */
 
     const resource = action.payload! as Resource<Stream>;
+    const activeCall = state.activeCalls.find((call: Call) => call.id === resource.resource.callId);
 
     const updatedStream: Stream = {
       ...resource.resource,
+      photo: activeCall?.streams.find((stream: Stream) => stream.id === resource.resource.id)?.photo,
     };
 
     return {
@@ -299,7 +306,7 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
       defaultProtocol: defaults.protocol,
       defaultLatency: defaults.latency ?? call.defaultLatency,
       defaultPassphrase: defaults.passphrase ?? call.defaultPassphrase,
-      defaultKeyLength : defaults.keyLength ?? call.defaultKeyLength,
+      defaultKeyLength: defaults.keyLength ?? call.defaultKeyLength,
     };
 
     return {
@@ -334,6 +341,32 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
       activeCalls: state.activeCalls.map((o) => (o.id !== call.id ? o : updated)),
     };
   },
+  [CallsActions.UPDATE_STREAM_PHOTO](state: ICallsState, action: CallsActions.UpdateStreamPhoto): ICallsState {
+    const streamId = action.payload!.streamId;
+    const callId = action.payload!.callId;
+    const photo = action.payload!.photo;
+
+    const call = state.activeCalls.find((o) => o.id === callId);
+
+    if (!call) {
+      return state;
+    }
+
+    const updatedStream = {
+      ...call.streams.find((stream: Stream) => stream.id === streamId),
+      photo: photo,
+    } as Stream;
+
+    const updatedCall: Call = {
+      ...call,
+      streams: [...call.streams.filter((stream: Stream) => stream.id !== streamId), ...[updatedStream]],
+    };
+
+    return {
+      ...state,
+      activeCalls: state.activeCalls.map((o) => (o.id !== call.id ? o : updatedCall)),
+    };
+  },
 });
 
 const defaultCallValues = {
@@ -352,6 +385,7 @@ const fillDefaults = (call: Call, defaults: Partial<Call>): Call => ({
     ? call.streams.map((o) => ({
         ...o,
         audioSharing: o.type !== StreamType.VbSS,
+        photo: defaults.streams?.find((stream: Stream) => stream.id === o.id)?.photo,
       }))
     : [],
 });
