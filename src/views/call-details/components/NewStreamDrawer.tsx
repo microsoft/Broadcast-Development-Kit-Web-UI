@@ -15,6 +15,7 @@ import {
   StreamSrtConfiguration,
   StreamType,
   KeyLength,
+  RtmpMode,
 } from '../../../models/calls/types';
 import { closeNewStreamDrawer } from '../../../stores/calls/actions';
 import { startStreamAsync } from '../../../stores/calls/asyncActions';
@@ -28,7 +29,7 @@ interface DrawerState {
   protocol?: StreamProtocol;
   flow?: StreamType;
   url?: string;
-  mode?: StreamMode;
+  mode?: StreamMode | RtmpMode;
   port?: string;
   passphrase?: string;
   latency?: number;
@@ -39,6 +40,7 @@ interface DrawerState {
   audioFormat?: number;
   timeOverlay?: boolean;
   keyLength?: KeyLength;
+  enableSsl?: boolean;
 }
 
 const NewStreamDrawer: React.FC = () => {
@@ -56,16 +58,31 @@ const NewStreamDrawer: React.FC = () => {
 
   const loadDefaultSettings = () => {
     const protocol = drawerProps.call?.defaultProtocol || StreamProtocol.SRT;
-    const passphrase = protocol === StreamProtocol.SRT ? drawerProps.newStream?.advancedSettings.key : '';
+    const passphrase =
+      protocol === StreamProtocol.SRT
+        ? drawerProps.newStream?.advancedSettings.key
+        : drawerProps.call?.privateContext?.streamKey;
     const latency = drawerProps.newStream?.advancedSettings.latency;
     const url = '';
-    const mode = StreamMode.Listener;
+    const mode = drawerProps.call?.defaultProtocol === StreamProtocol.RTMP ? RtmpMode.Pull : StreamMode.Listener;
     const unmixedAudio = drawerProps.newStream?.advancedSettings.unmixedAudio;
     const audioFormat = 0;
     const timeOverlay = true;
     const keyLength = drawerProps.newStream?.advancedSettings.keyLength || KeyLength.None;
+    const enableSsl = drawerProps.newStream?.advancedSettings.enableSsl;
 
-    setState({ protocol, passphrase, latency, url, mode, unmixedAudio, audioFormat, timeOverlay, keyLength });
+    setState({
+      protocol,
+      passphrase,
+      latency,
+      url,
+      mode,
+      unmixedAudio,
+      audioFormat,
+      timeOverlay,
+      keyLength,
+      enableSsl,
+    });
   };
 
   const handleChange = (e: any) => {
@@ -75,6 +92,10 @@ const NewStreamDrawer: React.FC = () => {
   const handleLatencyChange = (value?: ReactText) => {
     const latency = parseInt(value?.toString() ?? '0', 10);
     setState({ latency: latency });
+  };
+
+  const handleSwitchChange = (checked: boolean) => {
+    setState({ enableSsl: checked });
   };
 
   const handleSwitch = (checked: boolean) => {
@@ -134,11 +155,13 @@ const NewStreamDrawer: React.FC = () => {
         } as StreamSrtConfiguration;
       case StreamProtocol.RTMP:
         return {
+          mode: state.mode,
           unmixedAudio: state.unmixedAudio,
           streamKey: state.passphrase,
           streamUrl: state.url,
           audioFormat: state.audioFormat,
           timeOverlay: state.timeOverlay,
+          enableSsl: state.enableSsl,
         } as StreamConfiguration;
       default:
         return {};
@@ -271,7 +294,9 @@ const NewStreamDrawer: React.FC = () => {
                     disabled={!state.passphrase}
                   >
                     {getKeyLengthValues().map((value) => (
-                      <Select.Option key={value} value={parseInt(value)}>{parseInt(value) ? `${value} bytes` : 'no-key'}</Select.Option>
+                      <Select.Option key={value} value={parseInt(value)}>
+                        {parseInt(value) ? `${value} bytes` : 'no-key'}
+                      </Select.Option>
                     ))}
                   </Select>
                 </div>
@@ -294,22 +319,36 @@ const NewStreamDrawer: React.FC = () => {
         {state.protocol === StreamProtocol.RTMP && (
           <>
             <div className="NewStreamSettingBox">
-              <span className="NewStreamSettingText">Stream Url</span>
+              <span className="NewStreamSettingText">Mode</span>
               <div>
-                <Input className="NewStreamInput" name="url" value={state.url} onChange={handleChange} />
+                <Radio.Group name="mode" value={state.mode} onChange={handleChange}>
+                  <Radio.Button value={RtmpMode.Pull}>Pull</Radio.Button>
+                  <Radio.Button value={RtmpMode.Push}>Push</Radio.Button>
+                </Radio.Group>
               </div>
             </div>
-
+            {state.mode === RtmpMode.Push && (
+              <div className="NewStreamSettingBox">
+                <span className="NewStreamSettingText">Stream Url</span>
+                <div>
+                  <Input className="NewStreamInput" name="url" value={state.url} onChange={handleChange} />
+                </div>
+              </div>
+            )}
+            {state.mode === RtmpMode.Pull && (
+              <div className="NewStreamSettingBox">
+                <span className="NewStreamSettingText">Enable Ssl</span>
+                <Switch onChange={handleSwitchChange} />
+              </div>
+            )}
             <div className="NewStreamSettingBox">
               <span className="NewStreamSettingText">Stream Key</span>
               <div>
                 <Input.Password
                   className="NewStreamInput"
-                  min={0}
-                  defaultValue={0}
                   name="passphrase"
                   value={state.passphrase}
-                  onChange={handleChange}
+                  contentEditable={false}
                 />
               </div>
             </div>

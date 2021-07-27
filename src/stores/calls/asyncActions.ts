@@ -277,7 +277,8 @@ export const startStreamAsync = ({callId, participantId, protocol, config} : Sta
         streamKey: config.streamKey || null,
         timeOverlay: config.timeOverlay,
         audioFormat: config.audioFormat,
-        keyLength: (config as StreamSrtConfiguration).keyLength
+        keyLength: (config as StreamSrtConfiguration).keyLength,
+        enableSsl: config.enableSsl
       },
       isSecured: true
     });
