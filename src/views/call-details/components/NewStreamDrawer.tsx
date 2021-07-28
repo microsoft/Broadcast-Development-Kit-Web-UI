@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import React, { ReactText, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Drawer, Button, Input, Radio, InputNumber, Alert, Switch, Select } from 'antd';
+import { Drawer, Button, Input, Radio, InputNumber, Alert, Switch, Select, Tooltip } from 'antd';
+import { ReloadOutlined } from '@ant-design/icons';
 import IAppState from '../../../services/store/IAppState';
 import './NewStreamDrawer.css';
 import { selectNewStreamDrawerProps } from '../../../stores/calls/selectors';
@@ -18,7 +19,7 @@ import {
   RtmpMode,
 } from '../../../models/calls/types';
 import { closeNewStreamDrawer } from '../../../stores/calls/actions';
-import { startStreamAsync } from '../../../stores/calls/asyncActions';
+import { refreshStreamKeyAsync, startStreamAsync } from '../../../stores/calls/asyncActions';
 
 enum ViewMode {
   Simple,
@@ -47,8 +48,10 @@ const NewStreamDrawer: React.FC = () => {
   const dispatch = useDispatch();
   const { id: callId } = useParams<{ id: string }>();
   const drawerProps = useSelector((state: IAppState) => selectNewStreamDrawerProps(state, callId));
-
+  
   const visible = !!drawerProps.newStream;
+  
+  const rtmpPushStreamKey = drawerProps.call?.privateContext?.streamKey ?? '';
 
   //Warning! It wasn't tested with nested objects
   const [state, setState] = useReducer(
@@ -101,7 +104,7 @@ const NewStreamDrawer: React.FC = () => {
   const handleSwitch = (checked: boolean) => {
     setState({ followSpeakerAudio: checked });
   };
-
+  
   const handleClose = () => {
     dispatch(closeNewStreamDrawer());
   };
@@ -136,6 +139,10 @@ const NewStreamDrawer: React.FC = () => {
     setState({ keyLength });
   };
 
+  const handleRefreshStreamKey = () => {
+    dispatch(refreshStreamKeyAsync(callId));
+  };
+
   const getKeyLengthValues = () => {
     return Object.keys(KeyLength).filter((k) => typeof KeyLength[k as any] !== 'number');
   };
@@ -157,7 +164,6 @@ const NewStreamDrawer: React.FC = () => {
         return {
           mode: state.mode,
           unmixedAudio: state.unmixedAudio,
-          streamKey: state.passphrase,
           streamUrl: state.url,
           audioFormat: state.audioFormat,
           timeOverlay: state.timeOverlay,
@@ -168,6 +174,7 @@ const NewStreamDrawer: React.FC = () => {
     }
   };
 
+  
   const renderCommonSettings = () => {
     return (
       <>
@@ -347,9 +354,18 @@ const NewStreamDrawer: React.FC = () => {
                 <Input.Password
                   className="NewStreamInput"
                   name="passphrase"
-                  value={state.passphrase}
+                  value={rtmpPushStreamKey}
                   contentEditable={false}
                 />
+                <Tooltip title="Refresh Stream Key">
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon={<ReloadOutlined />}
+                    style={{ marginLeft: 10 }}
+                    onClick={handleRefreshStreamKey}
+                  ></Button>
+                </Tooltip>
               </div>
             </div>
 

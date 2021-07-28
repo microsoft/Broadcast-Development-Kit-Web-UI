@@ -96,7 +96,7 @@ export interface StopInjectionRequest {
 
 export type StreamConfiguration = {
   streamUrl: string;
-  streamKey: string;
+  streamKey?: string;
   unmixedAudio: boolean;
   audioFormat: number;
   timeOverlay: boolean;
