@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Row, Col, Button, Typography } from 'antd';
 import Videocam from '@material-ui/icons/Videocam';
@@ -22,6 +22,8 @@ interface StreamCardProps {
   stream: Stream;
   callStreams: CallStreamsProps;
 }
+
+const OBFUSCATION_PATTERN = '********';
 
 const StreamCard: React.FC<StreamCardProps> = (props) => {
   const dispatch = useDispatch();
@@ -90,6 +92,16 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
     }
   };
 
+  const streamUrl = useMemo((): string | undefined => {
+    if (stream.details?.streamUrl) {
+      const rtmpUrl = stream.details.streamUrl.replace(stream.details.passphrase, OBFUSCATION_PATTERN);
+
+      return rtmpUrl;
+    }
+
+    return stream.details?.streamUrl ?? '';
+  }, [stream.details?.streamUrl]);
+
   const initials = stream.displayName
     .split(' ')
     .map((s) => s[0].toUpperCase())
@@ -103,15 +115,19 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
       (stream.state === StreamState.Disconnected &&
         ((stream.type === StreamType.VbSS && callStreams.stageEnabled) ||
           (stream.type === StreamType.PrimarySpeaker && callStreams.primarySpeakerEnabled) ||
-          ([StreamType.Participant, 
-            StreamType.LargeGallery, 
-            StreamType.LiveEvent, 
-            StreamType.TogetherMode].includes(stream.type) && stream.isSharingVideo))));
+          ([StreamType.Participant, StreamType.LargeGallery, StreamType.LiveEvent, StreamType.TogetherMode].includes(
+            stream.type
+          ) &&
+            stream.isSharingVideo))));
 
   const classes = ['streamCard', getConnectionClass(stream), expanded ? 'expanded' : ''];
   const avatarSize = 112;
   const avatarIcon = stream.photo ? (
-    <img src={stream.photo} style={{ width: avatarSize, height: avatarSize }} onError={() => dispatch(updateStreamPhoto(stream.id, '', callStreams.callId))} />
+    <img
+      src={stream.photo}
+      style={{ width: avatarSize, height: avatarSize }}
+      onError={() => dispatch(updateStreamPhoto(stream.id, '', callStreams.callId))}
+    />
   ) : (
     <>{initials}</>
   );
@@ -154,7 +170,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
                 <div>
                   Stream URL:{' '}
                   <strong>
-                    <Typography.Text copyable>{stream.details.streamUrl}</Typography.Text>
+                    <Typography.Text copyable={{ text: stream.details.streamUrl }}>{'' + streamUrl}</Typography.Text>
                   </strong>
                 </div>
 
