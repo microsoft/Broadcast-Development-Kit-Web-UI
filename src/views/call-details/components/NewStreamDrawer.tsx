@@ -94,7 +94,7 @@ const NewStreamDrawer: React.FC = () => {
     setState({ latency: latency });
   };
 
-  const handleSwitchChange = (checked: boolean) => {
+  const handleSwitchSsl = (checked: boolean) => {
     setState({ enableSsl: checked });
   };
 
@@ -338,7 +338,7 @@ const NewStreamDrawer: React.FC = () => {
             {state.mode === RtmpMode.Pull && (
               <div className="NewStreamSettingBox">
                 <span className="NewStreamSettingText">Enable Ssl</span>
-                <Switch onChange={handleSwitchChange} />
+                <Switch onChange={handleSwitchSsl} />
               </div>
             )}
             <div className="NewStreamSettingBox">

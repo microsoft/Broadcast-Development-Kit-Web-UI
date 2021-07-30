@@ -170,7 +170,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
                 <div>
                   Stream URL:{' '}
                   <strong>
-                    <Typography.Text copyable={{ text: stream.details.streamUrl }}>{'' + streamUrl}</Typography.Text>
+                    <Typography.Text copyable={{ text: stream.details.streamUrl }}>{streamUrl}</Typography.Text>
                   </strong>
                 </div>
 
