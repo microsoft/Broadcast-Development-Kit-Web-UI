@@ -48,9 +48,9 @@ const NewStreamDrawer: React.FC = () => {
   const dispatch = useDispatch();
   const { id: callId } = useParams<{ id: string }>();
   const drawerProps = useSelector((state: IAppState) => selectNewStreamDrawerProps(state, callId));
-  
+
   const visible = !!drawerProps.newStream;
-  
+
   const rtmpPushStreamKey = drawerProps.call?.privateContext?.streamKey ?? '';
 
   //Warning! It wasn't tested with nested objects
@@ -61,13 +61,10 @@ const NewStreamDrawer: React.FC = () => {
 
   const loadDefaultSettings = () => {
     const protocol = drawerProps.call?.defaultProtocol || StreamProtocol.SRT;
-    const passphrase =
-      protocol === StreamProtocol.SRT
-        ? drawerProps.newStream?.advancedSettings.key
-        : drawerProps.call?.privateContext?.streamKey;
+    const passphrase = protocol === StreamProtocol.SRT ? drawerProps.newStream?.advancedSettings.key : '';
     const latency = drawerProps.newStream?.advancedSettings.latency;
     const url = '';
-    const mode = drawerProps.call?.defaultProtocol === StreamProtocol.RTMP ? RtmpMode.Pull : StreamMode.Listener;
+    const mode = protocol === StreamProtocol.RTMP ? RtmpMode.Pull : StreamMode.Listener;
     const unmixedAudio = drawerProps.newStream?.advancedSettings.unmixedAudio;
     const audioFormat = 0;
     const timeOverlay = true;
@@ -101,10 +98,6 @@ const NewStreamDrawer: React.FC = () => {
     setState({ enableSsl: checked });
   };
 
-  const handleSwitch = (checked: boolean) => {
-    setState({ followSpeakerAudio: checked });
-  };
-  
   const handleClose = () => {
     dispatch(closeNewStreamDrawer());
   };
@@ -164,7 +157,8 @@ const NewStreamDrawer: React.FC = () => {
         return {
           mode: state.mode,
           unmixedAudio: state.unmixedAudio,
-          streamUrl: state.url,
+          streamUrl: state.mode === RtmpMode.Push ? state.url : null,
+          streamKey: state.mode === RtmpMode.Push ? state.passphrase : null,
           audioFormat: state.audioFormat,
           timeOverlay: state.timeOverlay,
           enableSsl: state.enableSsl,
@@ -174,7 +168,6 @@ const NewStreamDrawer: React.FC = () => {
     }
   };
 
-  
   const renderCommonSettings = () => {
     return (
       <>
@@ -354,18 +347,21 @@ const NewStreamDrawer: React.FC = () => {
                 <Input.Password
                   className="NewStreamInput"
                   name="passphrase"
-                  value={rtmpPushStreamKey}
-                  contentEditable={false}
+                  value={state.mode === RtmpMode.Pull ? rtmpPushStreamKey : state.passphrase}
+                  onChange={handleChange}
+                  contentEditable={state.mode === RtmpMode.Push}
                 />
-                <Tooltip title="Refresh Stream Key">
-                  <Button
-                    type="primary"
-                    shape="circle"
-                    icon={<ReloadOutlined />}
-                    style={{ marginLeft: 10 }}
-                    onClick={handleRefreshStreamKey}
-                  ></Button>
-                </Tooltip>
+                {state.mode === RtmpMode.Pull && (
+                  <Tooltip title="Refresh Stream Key">
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      icon={<ReloadOutlined />}
+                      style={{ marginLeft: 10 }}
+                      onClick={handleRefreshStreamKey}
+                    ></Button>
+                  </Tooltip>
+                )}
               </div>
             </div>
 
