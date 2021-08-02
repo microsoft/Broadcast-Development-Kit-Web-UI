@@ -58,6 +58,7 @@ export interface Stream {
   isSharingAudio: boolean;
   audioMuted: boolean;
   details: StreamDetails | null;
+  enableSsl: boolean;
 }
 
 export interface StartStreamRequest {
@@ -95,10 +96,11 @@ export interface StopInjectionRequest {
 
 export type StreamConfiguration = {
   streamUrl: string;
-  streamKey: string;
+  streamKey?: string;
   unmixedAudio: boolean;
   audioFormat: number;
   timeOverlay: boolean;
+  enableSsl: boolean;
 };
 
 export interface StreamSrtConfiguration extends StreamConfiguration {
@@ -156,6 +158,11 @@ export enum StreamMode {
   Listener = 2,
 }
 
+export enum RtmpMode {
+  Pull = 1,
+  Push = 2,
+}
+
 export enum KeyLength {
   None = 0,
   SixteenBytes = 16,
@@ -175,6 +182,7 @@ export interface NewStream {
     key?: string;
     unmixedAudio: boolean;
     keyLength?: KeyLength;
+    enableSsl: boolean;
   };
 }
 

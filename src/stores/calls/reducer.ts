@@ -232,6 +232,7 @@ export const callsReducer: Reducer = baseReducer(INITIAL_STATE, {
           key: call.defaultPassphrase,
           unmixedAudio: false,
           keyLength: call.defaultKeyLength,
+          enableSsl: false
         },
       },
     };
