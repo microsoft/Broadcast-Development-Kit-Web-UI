@@ -92,7 +92,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
     }
   };
 
-  const streamUrl = useMemo((): string | undefined => {
+  const getStreamUrl = (): string => {
     if (stream.details?.streamUrl) {
       const rtmpUrl = stream.details.streamUrl.replace(stream.details.passphrase, OBFUSCATION_PATTERN);
 
@@ -100,7 +100,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
     }
 
     return stream.details?.streamUrl ?? '';
-  }, [stream.details?.streamUrl]);
+  };
 
   const initials = stream.displayName
     .split(' ')
@@ -133,6 +133,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
   );
 
   const isRtmp = protocol === StreamProtocol.RTMP;
+  const streamUrl = getStreamUrl();
 
   return (
     <div className={classes.join(' ')}>
