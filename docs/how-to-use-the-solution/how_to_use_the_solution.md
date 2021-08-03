@@ -14,11 +14,11 @@ This document is intended to provide the guidance needed by the user to operate 
 - [How to extract a stream from the meeting](#how-to-extract-a-stream-from-the-meeting).
 
 ### Authentication
-Once you entered the URL in the Browser at first time, the Web UI renders the `Login` view. Please, click on the `Login with your account` to enter your Azure AD credentials. 
+Once you entered the URL in the Browser for the first time, the Web UI renders the `Login` view. Please, click on the `Login with your account` to enter your Azure AD credentials. 
 
 ![Login page](images/login-page.png)
 
-Ad or select the account you want to log in with.
+Add or select the account you want to log in with.
 
 ![Login popup](images/login-popup.png)
 
@@ -73,11 +73,19 @@ For the streaming protocol selected, you can see the following information.
 
 >**NOTE**: If the selected protocol is SRT, you can also see other information related to that protocol, such as, `Latency`, `Passphrase`, among others. 
 
+To change the streaming protocol, you need to click on the `Edit` button placed in this info section at the right top and select between `SRT` or RTMP. 
+
+![Web UI call-details view change protocol](images/call-details-view-change-protocol.png)
+
+After clicking on the `Edit` button, you can select the desired protocol, by default the selected protocol is SRT. Also, for the SRT protocol, you can set default values for `Latency`, `Passphrase`, and `Key Length`. 
+
+![Web UI call-details view change protocol](images/call-details-view-select-protocol.png)
+
 #### Injection Stream
 This section renders a `Card` that allows you to configure and start the stream injection into the current meeting. To start an injection please refer to the section [How to inject a stream into the meeting](#how-to-inject-a-stream-into-the-meeting)
 
 #### Active Streams
-This section renders a `Card` for each [Main](#main-streams) and [Participant](#participants) stream/s being extracted. In those `Card` you can find the information related to the extracted stream itself, also you can stop the extraction.
+This section renders a `Card` for each [Main](#main-streams) and [Participant](#participants) stream/s being extracted. In those `Card` you can find the information related to the extracted stream itself and stop the extraction from here.
 
 #### Main Streams
 This section renders a `Card` for each `Main Stream` available for the current call from where you can start the stream extraction. The `Main Stream` are:
@@ -92,11 +100,43 @@ This section renders a `Card` for each `Main Stream` available for the current c
 #### Participants
 This section renders a `Card` for each participant present in the meeting from where you can start the stream extraction.
 
-![Streams sections](images/call-details-view-streams-sections.png)
+>**NOTE**: To start an extraction, the participant must have activated the camera, otherwise the `start` button will appear disabled on the participant `Card`. Also, to stream the screen share, one of the participants must be sharing the screen.
 
-### How to inject a stream into the meeting
-To start an extraction, 
+![web UI call-details streams sections](images/call-details-view-streams-sections.png)
 
-### How to extract a stream from the meeting
+### How to inject media content into the meeting
+To inject media content into a meeting, you need to go to the Injection Stream section and click on the start button. A side panel will appear on the right side, displaying the options to configure and start the injection.
 
+You will need to configure these settings:
 
+- Protocol: Select between the SRT and RTMP protocols.
+- Mode: Select the mode in which you want to operate
+    - For SRT: Listener or Caller.
+    - For RTMP: Pull or Push.
+
+![Web UI call-details injection stream](images/call-details-view-injection-stream.png)
+
+Additionlly, based on the protocol and mode selected you will need to configure other properties, for example:
+
+- SRT Protocol:
+    - Injection URL (only for `Caller` mode).
+    - Latency (optional).
+    - Passphrase (optional).
+    - Key Length (optional).
+- RTMP Protocol: 
+    - Injection URL (only for `Pull` mode).
+    - Enable SSL (to stream over RTMP or RTMPS).
+
+>**NOTE**: The injection URL for SRT in `Caller` mode or RTMP in `Pull` mode, is the URL where the Bot Service will establish the connection to pull the content.
+
+>**NOTE**: For the SRT protocol, if you do not configure the `Latency`, `Passphrase`, `Key Length` properties, the default values configured for the call will be used.
+
+Once you complete the configuration, click on the `Start` button at the bottom of the side panel.
+
+If the Injection Stream could be successfully started, the Injection `Card` will change the status color to green, and you will be able to expand it to see the properties configured for the injection stream.
+
+![Web UI call-details injection card](images/call-details-view-injection-card.png)
+
+![Web UI call-details injection card expanded](images/call-details-view-injection-card-expanded.png)
+
+### How to extract media content from the meeting
