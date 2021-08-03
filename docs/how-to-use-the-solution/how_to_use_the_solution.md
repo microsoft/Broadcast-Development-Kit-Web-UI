@@ -10,11 +10,11 @@ This document is intended to provide the guidance needed by the user to operate 
 - [Check Bot Service Status](#check-bot-service-status).
 - [Join the Bot into a meeting](#join-the-bot-into-a-meeting).
 - [Call info status and streaming protocol configuration](#call-info-status-and-streaming-protocol-configuration).
-- [How to inject a stream into the meeting](#how-to-inject-a-stream-into-the-meeting).
-- [How to extract a stream from the meeting](#how-to-extract-a-stream-from-the-meeting).
+- [How to inject media content into the meeting](#how-to-inject-media-content-into-the-meeting).
+- [How to extract media content from the meeting](#how-to-extract-media-content-from-the-meeting).
 
 ### Authentication
-Once you entered the URL in the Browser for the first time, the Web UI renders the `Login` view. Please, click on the `Login with your account` to enter your Azure AD credentials. 
+Once you entered the URL in the Browser for the first time, the Web UI renders the `Login` view. Please, click on the `Login with your account` button to enter your Azure AD credentials. 
 
 ![Login page](images/login-page.png)
 
@@ -43,7 +43,7 @@ Please enter the meeting URL in the `Invite URL` text field and click on the `Jo
 > **NOTE:** To be able to invite the Bot into a meeting, a Microsoft Teams meeting needs to be scheduled.
 
 ### Call info status and streaming protocol configuration
-During the call establishment, a Call details view will be rendered. In this view you will see the following sections:
+Once the call is established, a Call details view will be rendered. In this view you will see the following sections:
 
 - [Call Information View](#call-Information-view).
 - [Injection Stream](#injection-stream).
@@ -54,7 +54,7 @@ During the call establishment, a Call details view will be rendered. In this vie
 ![Web UI call details view sections image](images/call-details-view.png)
 
 #### Call Information View
-In this section is rendered the information related to the call and the streaming protocol configured.
+This section shows the information related to the call and the streaming protocol configured.
 
 For the call you can see the following information:
 
@@ -73,7 +73,7 @@ For the streaming protocol selected, you can see the following information.
 
 >**NOTE**: If the selected protocol is SRT, you can also see other information related to that protocol, such as, `Latency`, `Passphrase`, among others. 
 
-To change the streaming protocol, you need to click on the `Edit` button placed in this info section at the right top and select between `SRT` or RTMP. 
+To change the streaming protocol, you need to click on the `Edit` button placed in this info section at the right top and select between `SRT` or `RTMP`. 
 
 ![Web UI call-details view change protocol](images/call-details-view-change-protocol.png)
 
@@ -140,3 +140,28 @@ If the Injection Stream could be successfully started, the Injection `Card` will
 ![Web UI call-details injection card expanded](images/call-details-view-injection-card-expanded.png)
 
 ### How to extract media content from the meeting
+To extract media content from the meeting you need can go to the Main Streams or Participants section and click on the `Start` button in the `Card` of the stream you want to extract.
+
+Similar to injection, a side panel will appear on the right side displaying the options to configure and start the extraction.
+
+Based on the protocol selected in the `Call Info` section you will see different options on the side panel displayed.
+
+For SRT protocol you can choose the `Default` or `Advance` Settings configuration.
+
+If you select the `Default Settings` the stream will start in `Listener` mode and using the global settings configured in the `Call Info` section.
+
+![Web UI call-details injection stream](images/call-details-view-extraction-stream.png)
+
+If you select the `Advance Settings` mode, you will be able to choose between `Listener` and `Caller` modes and also override the default values for `Latency`, `Passphrase`, and `Key Length`. 
+
+Additionally, you will be able to select the `Audio Format` and enable/disable the `Video Overlay`.
+
+>**NOTE**: The audio formats supported are AAC at 44100Hz or 48000Hz. 
+
+![Web UI call-details injection stream](images/call-details-view-extraction-stream-advance.png)
+
+Once you configure the values click on the `Start` button placed at the bottom of the side panel.
+
+For RTMP protocol the side panel shows the options available to configure, as shown in the following picture. 
+
+![Web UI call-details injection stream](images/call-details-view-extraction-stream-rtmp.png)
