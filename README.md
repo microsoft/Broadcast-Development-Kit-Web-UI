@@ -22,7 +22,7 @@ This repository contains a sample Web UI for the [Broadcast Development Kit](htt
 The repository is structured in the following directories:
 - **src**: Contains the source code of the application.
 - **public**: Contains static files that are used in the application, including configuration files.
-- **docs**: Contains the documentation on the solution.
+- **docs**: Contains the documentation of the solution.
 
 ### Running the solution locally
 
