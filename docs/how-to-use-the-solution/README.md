@@ -4,7 +4,7 @@
 
 
 ## Getting Started
-This document is intended to provide the guidance needed by the user to operate the Broadcast Development Kit (BDK) through the Web UI sample. This includes:
+This document explains how to operate the Broadcast Development Kit (BDK) through the Web UI sample. This includes:
 
 - [Authentication](#authentication).
 - [Check Bot Service Status](#check-bot-service-status).
@@ -12,6 +12,7 @@ This document is intended to provide the guidance needed by the user to operate 
 - [Call info status and streaming protocol configuration](#call-info-status-and-streaming-protocol-configuration).
 - [How to inject media content into the meeting](#how-to-inject-media-content-into-the-meeting).
 - [How to extract media content from the meeting](#how-to-extract-media-content-from-the-meeting).
+- [Stream key for RTMP protocol](#stream-key-for-rtmp-protocol).
 
 ### Authentication
 Once you entered the URL in the Browser for the first time, the Web UI renders the `Login` view. Please, click on the `Login with your account` button to enter your Azure AD credentials. 
@@ -27,7 +28,7 @@ After authenticating, the first thing you need to check is the Bot Service statu
 
 ![Bot service deprovisioned image](images/bot-service-status-deprovisioned.png)
 
-If the Bot Service Status is `Deprovisioned` like the picture above shows, you will need to provision the service by clicking on the `Start` button on the Bot Service Card. After a few seconds, the Bot Service will be provisioned.
+If the Bot Service Status is `Deprovisioned` like the picture above shows, you will need to provision the service by clicking on the `Start` button on the Bot Service Card. After a few minutes, the Bot Service will be provisioned.
 
 ![Bot service provisioned image](images/bot-service-status-provisioned.png)
 
@@ -58,11 +59,11 @@ This section shows the information related to the call and the streaming protoco
 
 For the call you can see the following information:
 
-- ***Status***: Display the current call status (Establishing, Established, Terminated).
-- ***Active Streams***: Display the number of...
-- ***Invite Link***: Display a button to copy the Microsoft Teams meeting URL.
-- ***Call type***: Display type of call (Default, Live event) and the number of participants in the meeting.
-- ***Created***: Display the time when the Bot was joined into the meeting.
+- ***Status***: Displays the current call status (Establishing, Established, Terminated).
+- ***Active Streams***: Displays the number of stream extractions active.
+- ***Invite Link***: Displays a button to copy the Microsoft Teams meeting URL.
+- ***Call type***: Displays type of call (Default, Live event) and the number of participants in the meeting.
+- ***Created***: Displays the time when the Bot was joined into the meeting.
 
 ![Web UI call-related info](images/call-details-view-info.png)
 
@@ -95,12 +96,12 @@ This section renders a `Card` for each `Main Stream` available for the current c
 - Together Mode.
 - Large Gallery. 
 
->**NOTE**: The `Together Mode` and the `Large Gallery` are only visible in this section if they are activated in the Microsoft Teams client.
+>**NOTE**: The `Together Mode` and the `Large Gallery` are only visible in this section if they were previously activated in the meeting.
 
 #### Participants
 This section renders a `Card` for each participant present in the meeting from where you can start the stream extraction.
 
->**NOTE**: To start an extraction, the participant must have activated the camera, otherwise the `start` button will appear disabled on the participant `Card`. Also, to stream the screen share, one of the participants must be sharing the screen.
+>**NOTE**: To start an extraction, the participant must have their camera on, otherwise the `start` button will appear disabled on the participant `Card`. Also, to stream the screen share, one of the participants must be sharing the screen.
 
 ![web UI call-details streams sections](images/call-details-view-streams-sections.png)
 
@@ -142,17 +143,17 @@ If the Injection Stream could be successfully started, the Injection `Card` will
 ### How to extract media content from the meeting
 To extract media content from the meeting you need can go to the Main Streams or Participants section and click on the `Start` button in the `Card` of the stream you want to extract.
 
-Similar to injection, a side panel will appear on the right side displaying the options to configure and start the extraction.
+Similar to the injection, a side panel will appear on the right side displaying the options to configure and start the extraction.
 
 Based on the protocol selected in the `Call Info` section you will see different options on the side panel displayed.
 
-For SRT protocol you can choose the `Default` or `Advance` Settings configuration.
+For the SRT protocol, you can choose the `Default` or `Advanced` Settings configuration.
 
 If you select the `Default Settings` the stream will start in `Listener` mode and using the global settings configured in the `Call Info` section.
 
 ![Web UI call-details injection stream](images/call-details-view-extraction-stream.png)
 
-If you select the `Advance Settings` mode, you will be able to choose between `Listener` and `Caller` modes and also override the default values for `Latency`, `Passphrase`, and `Key Length`. 
+If you select the `Advanced Settings` mode, you will be able to choose between `Listener` and `Caller` modes and also override the default values for `Latency`, `Passphrase`, and `Key Length`. 
 
 Additionally, you will be able to select the `Audio Format` and enable/disable the `Video Overlay`.
 
@@ -160,8 +161,27 @@ Additionally, you will be able to select the `Audio Format` and enable/disable t
 
 ![Web UI call-details injection stream](images/call-details-view-extraction-stream-advance.png)
 
-Once you configure the values click on the `Start` button placed at the bottom of the side panel.
+Once you configure the values, click on the `Start` button placed at the bottom of the side panel.
 
-For RTMP protocol the side panel shows the options available to configure, as shown in the following picture. 
+![Web UI call-details extraction card](images/call-details-view-extraction-card-main-stream.png)
 
-![Web UI call-details injection stream](images/call-details-view-extraction-stream-rtmp.png)
+![Web UI call-details extraction card expanded](images/call-details-view-extraction-card-main-stream-expanded.png)
+
+For the RTMP protocol, the side panel shows the options available to configure, as shown in the following picture. 
+
+![Web UI call-details extraction stream](images/call-details-view-extraction-stream-rtmp.png)
+
+After clicking on the `Start` button the extraction `Card` will change its status color to green if the stream could be started. Also, it will change the position from [Main Stream](#main-streams) or [Participants](#participants) section to [Active Streams](#active-streams) and you will be able to expand it to see the properties configured for the extraction stream.  
+
+![Web UI call-details extraction card](images/call-details-view-extraction-card-participant-stream.png)
+
+![Web UI call-details extraction card expanded](images/call-details-view-extraction-card-participant-stream-expanded.png)
+
+### Stream key for RTMP protocol
+When the bot is joined into the meeting, a stream key is generated. This value is used for both, injection in push mode and extraction in pull mode. 
+
+The stream key is displayed (obfuscated) in the side panel. It can be regenerated by clicking on the `Refresh Stream Key` button placed at the right where the value is rendered.
+
+![Web UI call-details stream key](images/call-details-view-stream-key.png)
+
+>**NOTE**: As was mentioned above, the stream key value is common for injection in push mode and all extractions that start in pull mode. Please stop all active streams in the corresponding modes before regenerating this value.
