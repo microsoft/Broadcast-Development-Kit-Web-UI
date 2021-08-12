@@ -16,11 +16,22 @@ const ServicePage: React.FC = () => {
   const isRequesting: boolean = useSelector((state: IAppState) =>
     selectRequesting(state, [BotServiceActions.REQUEST_BOT_SERVICE])
   );
+  const isStarting: boolean = useSelector((state: IAppState) =>
+    selectRequesting(state, [BotServiceActions.REQUEST_START_SERVICE])
+  );
+  const isStoping: boolean = useSelector((state: IAppState) =>
+    selectRequesting(state, [BotServiceActions.REQUEST_STOP_SERVICE])
+  );
 
   React.useEffect(() => {
     // Array of one virtual machine will be fetched
-    dispatch(getBotServiceAsync());
-  }, []);
+    if (!isStarting && !isStoping) {
+      setTimeout(() => {
+        dispatch(getBotServiceAsync());
+      }, 3000);
+    }
+  }, [botServices, isStarting, isStoping]);
+
   const hasBotServices = botServices.length > 0;
   return (
     <div>
@@ -44,12 +55,10 @@ const ServicePage: React.FC = () => {
           {botServices.map((botService, i) => (
             <BotServiceStatusCard
               key={i}
-              loading={isRequesting}
               name={botService.name}
               botService={botService}
               onStart={() => dispatch(startBotServiceAsync())}
               onStop={() => dispatch(stopBotServiceAsync())}
-              onRefresh={() => dispatch(getBotServiceAsync())}
             />
           ))}
         </>

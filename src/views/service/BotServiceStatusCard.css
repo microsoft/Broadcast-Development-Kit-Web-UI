@@ -118,3 +118,13 @@
   display: block;
   margin: auto;
 }
+
+@-webkit-keyframes infiniteRotate {    
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+/* Standard syntax */
+@keyframes infiniteRotate {  
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}

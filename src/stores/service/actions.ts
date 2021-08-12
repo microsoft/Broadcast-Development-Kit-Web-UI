@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ApiError, DefaultError } from "../../models/error/types";
+import { ApiError } from "../../models/error/types";
 import { BotService } from "../../models/service/types";
 import { RequestResponse, Resource } from "../../services/api";
 import BaseAction, { RequestFinishedActionParameters } from "../base/BaseAction";
@@ -62,31 +62,3 @@ export const requestBotServiceFinished = ({
   error: payload instanceof ApiError,
 });
 
-export const REQUEST_POLLING_BOT_SERVICE = "REQUEST_POLLING_BOT_SERVICE";
-export const REQUEST_POLLING_BOT_SERVICE_FINISHED = "REQUEST_POLLING_BOT_SERVICE_FINISHED";
-
-export interface RequestPollingBotService extends BaseAction<undefined> {}
-export interface RequestPollingBotServiceFinished extends BaseAction<RequestResponse<Resource<BotService>>> {}
-
-export const requestPollingBotService = (): RequestPollingBotService => ({
-  type: REQUEST_POLLING_BOT_SERVICE,
-});
-
-export const requestPollingBotServiceFinished = ({
-  payload,
-  meta,
-}: RequestFinishedActionParameters<Resource<BotService>>): RequestPollingBotServiceFinished => ({
-  type: REQUEST_POLLING_BOT_SERVICE_FINISHED,
-  payload: payload,
-  error: payload instanceof ApiError,
-});
-
-
-export const POLLING_BOT_TRANSITION_ERROR = "POLLING_BOT_TRANSITION_ERROR";
-export interface PollingBotTransitionError extends BaseAction<DefaultError> {};
-
-export const pollingBotTransitionError = (message: string): PollingBotTransitionError => ({
-  type: POLLING_BOT_TRANSITION_ERROR,
-  payload: new DefaultError(message),
-  error: true,
-});

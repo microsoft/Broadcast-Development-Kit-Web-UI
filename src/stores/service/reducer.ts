@@ -23,13 +23,6 @@ export const serviceReducer = baseReducer(INITIAL_STATE, {
       botServices: [botService.resource],
     };
   },
-  [BotServiceActions.REQUEST_POLLING_BOT_SERVICE_FINISHED](state: BotServiceAppState, action: BotServiceActions.RequestPollingBotServiceFinished){
-    const botService = action.payload! as Resource<BotService>;
-    return {
-      ...state,
-      botServices: [botService.resource],
-    };
-  },
   [BotServiceActions.REQUEST_START_SERVICE_FINISHED](state: BotServiceAppState, action: BotServiceActions.RequestStartService){
     const botService = action.payload! as Resource<BotService>;
     return {
