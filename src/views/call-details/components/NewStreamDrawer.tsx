@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { ReactText, useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Drawer, Button, Input, Radio, InputNumber, Alert, Switch, Select, Tooltip } from 'antd';
+import { Drawer, Button, Input, Radio, InputNumber, Switch, Select, Tooltip } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 import IAppState from '../../../services/store/IAppState';
 import './NewStreamDrawer.css';

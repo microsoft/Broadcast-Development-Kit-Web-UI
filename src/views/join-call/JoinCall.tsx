@@ -14,7 +14,6 @@ import { selectRequesting } from "../../stores/requesting/selectors";
 import { extractLinks } from "../../services/helpers";
 import * as CallsActions from '../../stores/calls/actions';
 import { joinCallAsync } from "../../stores/calls/asyncActions";
-import { CallState } from "../../models/calls/types";
 
 const { Item } = Form;
 
@@ -55,9 +54,6 @@ const JoinCall: React.FC = (props) => {
       pattern: MEETING_URL_PATTERN,
     },
   ];
-
-  // ui parameters
-  const connecting = connectingCall?.status === CallState.Establishing;
 
   return (
     <>

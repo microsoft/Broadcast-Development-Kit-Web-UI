@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import Axios, { Method, AxiosRequestConfig } from 'axios';
 
-import { v4 as uuidv4 } from 'uuid';
 import { fillApiErrorWithDefaults } from '../../models/error/helpers';
 import { ApiError } from '../../models/error/types';
 import AuthService from '../../services/auth';

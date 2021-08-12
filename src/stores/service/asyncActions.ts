@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AnyAction } from 'redux';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { ApiError } from '../../models/error/types';
-import { BotService, ProvisioningStateValues } from '../../models/service/types';
+import { ThunkAction } from 'redux-thunk';
+import { BotService } from '../../models/service/types';
 import { ApiClient, Resource } from '../../services/api';
 import IAppState from '../../services/store/IAppState';
 import {
