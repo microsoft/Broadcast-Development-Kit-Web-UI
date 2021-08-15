@@ -12,7 +12,7 @@
   "featureFlags": {
     "DISABLE_AUTHENTICATION": {
       "description": "Disable authentication flow when true",
-      "isActive": true
+      "isActive": false
     }
   }
 }
