@@ -17,22 +17,21 @@ This repository contains a sample Web UI for the [Broadcast Development Kit](htt
 
 ## Getting started
 
+### How to run the solution
+
+You can follow these documents to run and deploy the sample UI:
+- [How to run the solution locally](docs/how-to-run-the-solution-locally/README.md)
+- [How to run the solution in Azure](docs/how-to-run-the-solution-in-azure/README.md)
+
+You can find more information on how to use the UI in the following document:
+- [How to use the Web UI solution](docs/how-to-use-the-solution/README.md)
+
 ### Exploring the repository
 
 The repository is structured in the following directories:
 - **src**: Contains the source code of the application.
 - **public**: Contains static files that are used in the application, including configuration files.
 - **docs**: Contains the documentation of the solution.
-
-### Running the solution locally
-
-To run the solution in a local environment please follow the guide listed below:
-- [How to run the solution locally](docs/how-to-run-the-solution-locally/README.md)
-
-### Running the solution in Azure
-
-To run the solution in Azure please follow the guide listed below:
-- [How to run the solution in Azure](docs/how-to-run-the-solution-in-azure/README.md)
 
 ## Reporting issues
 
