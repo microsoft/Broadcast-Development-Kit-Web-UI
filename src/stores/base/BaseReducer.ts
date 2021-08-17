@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AnyAction, Reducer } from 'redux';
+import { Reducer } from 'redux';
 import BaseAction from './BaseAction';
 
 type ReducerMethod<T> = (state: T, action: BaseAction<any>) => T;

@@ -4,7 +4,7 @@
  * Note: This reducer breaks convention on how reducers should be setup.
  */
 
-import { ApiError, ApplicationError, DefaultError } from '../../models/error/types';
+import { ApplicationError, DefaultError } from '../../models/error/types';
 import BaseAction from '../base/BaseAction';
 import * as ErrorAction from './actions';
 

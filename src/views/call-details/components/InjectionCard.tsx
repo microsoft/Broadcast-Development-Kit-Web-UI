@@ -107,7 +107,7 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
                   type="primary"
                   shape="round"
                   onClick={stream == null ? startInjection : stopInjection}
-                  disabled={!callStreams.callEnabled || stream?.state == StreamState.Starting}
+                  disabled={!callStreams.callEnabled || stream?.state === StreamState.Starting}
                 >
                   {stream == null ? 'START' : 'STOP'}
                 </Button>

@@ -249,7 +249,7 @@ export const startStreamAsync = ({callId, participantId, protocol, config} : Sta
   AnyAction > => async (dispatch, getState) => {
     const state = getState();
 
-    const call = state.calls.activeCalls.find((call) => call.id == callId);
+    const call = state.calls.activeCalls.find((call) => call.id === callId);
     if (! call) {
       return;
     }

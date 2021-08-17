@@ -14,35 +14,35 @@ export interface BotService {
   id: string;
   name: string;
   callId: string;
-  serviceState: BotServiceStates;
+  state: BotServiceStates;
   infrastructure: Infrastructure;
 }
 
 export interface Infrastructure {
-    virtualMachineName: string;
-    resourceGroup: string;
-    subscriptionId: string;
-    powerState: BotServiceInfrastructureState;
-    provisioningDetails: ProvisioningDetails;
+  virtualMachineName: string;
+  resourceGroup: string;
+  subscriptionId: string;
+  powerState: BotServiceInfrastructureState;
+  provisioningDetails: ProvisioningDetails;
 }
 
 export interface ProvisioningDetails {
-    state: ProvisioningState;
-    messsage: string;
+  state: ProvisioningState;
+  message: string;
 }
 
 export interface ProvisioningState {
-   id: ProvisioningStateValues;
-   name: string;
+  id: ProvisioningStateValues;
+  name: string;
 }
 
 export enum ProvisioningStateValues {
-    Provisioning = 0,
-    Provisioned = 1,
-    Deprovisioning = 2,
-    Deprovisioned = 3,
-    Error = 4,
-    Unknown = 5
+  Provisioning = 0,
+  Provisioned = 1,
+  Deprovisioning = 2,
+  Deprovisioned = 3,
+  Error = 4,
+  Unknown = 5
 }
 
 export enum TeamsColors {
@@ -63,12 +63,8 @@ export enum TeamsMargins {
   large = "40px",
 }
 
-export enum BotServiceStates
-{
-    Starting = 0,
-    Available = 1,
-    Unavailable = 2,
-    Stopping = 3,
-    Stopped = 4,
-    Unknown = 5
+export enum BotServiceStates {
+  Unavailable = 0,
+  Available = 1,
+  Busy = 2,
 }

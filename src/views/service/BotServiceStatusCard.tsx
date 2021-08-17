@@ -1,73 +1,70 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import React from "react";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
-import "./BotServiceStatusCard.css";
-import Divider from "@material-ui/core/Divider";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Container from "@material-ui/core/Container";
-import StorageIcon from "@material-ui/icons/Storage";
-import Avatar from "@material-ui/core/Avatar";
-import { Theme, withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import red from "@material-ui/core/colors/red";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
-import StopRoundedIcon from "@material-ui/icons/StopRounded";
-import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
-import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import { BotService, ProvisioningStateValues } from "../../models/service/types";
+import React from 'react';
+import PowerOffIcon from '@material-ui/icons/PowerOff';
+import CloseIcon from '@material-ui/icons/Close';
+import './BotServiceStatusCard.css';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import StorageIcon from '@material-ui/icons/Storage';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import StopRoundedIcon from '@material-ui/icons/StopRounded';
+import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
+import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
+import PersonIcon from '@material-ui/icons/Person';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { BotService, BotServiceStates, ProvisioningStateValues } from '../../models/service/types';
 
 interface BotServiceStatusDataProps {
   name: string;
   botService: BotService;
-  loading: boolean;
   onStart: () => void;
   onStop: () => void;
-  onRefresh: () => void;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
-    root: {
-      maxWidth: 345,
+    rotateIcon: {
+      animation: 'infiniteRotate 2s linear infinite',
     },
-    media: {
-      height: 0,
-      paddingTop: "56.25%", // 16:9
-    },
-    expand: {
-      transform: "rotate(0deg)",
-      transition: theme.transitions.create("transform", {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    expandOpen: {
-      transform: "rotate(0deg)",
-    },
-    avatar: {
-      backgroundColor: red[500],
-    },
+    avatarColor: {
+      backgroundColor: 'lightgrey',
+    }
   })
 );
 
 const BotServiceStatusCard: React.FC<BotServiceStatusDataProps> = (props) => {
   const classes = useStyles();
 
-  const {botService, name, loading, onStart, onStop, onRefresh} = props;
+  const { botService, name, onStart, onStop } = props;
 
-  const {id: provisioningStateValue, name: provisioningStateDisplayName} = botService.infrastructure.provisioningDetails.state;
+  const serviceState = BotServiceStates[botService.state];
+  const { id: provisioningStateValue, name: provisioningStateDisplayName } =
+    botService.infrastructure.provisioningDetails.state;
   const hasTransitioningState: boolean =
-  provisioningStateValue === ProvisioningStateValues.Provisioning ||
-  provisioningStateValue  === ProvisioningStateValues.Deprovisioning;
+    provisioningStateValue === ProvisioningStateValues.Provisioning ||
+    provisioningStateValue === ProvisioningStateValues.Deprovisioning;
+  const stateDisplayName =
+    provisioningStateValue === ProvisioningStateValues.Provisioned ? serviceState : provisioningStateDisplayName;
+
+  const provisionedIcon = () => {
+    switch(botService.state) {
+      case BotServiceStates.Available: 
+        return <PersonIcon style={{ color: 'limegreen' }} />;
+      case BotServiceStates.Busy:
+        return <RecordVoiceOverIcon style={{ color: 'coral' }} />;
+      default:
+        return <CloseIcon style={{ color: 'red' }} />;
+    }
+  }
 
   return (
     <Card id="BotServiceStatusCard" key={name}>
@@ -78,66 +75,43 @@ const BotServiceStatusCard: React.FC<BotServiceStatusDataProps> = (props) => {
             <StorageIcon />
           </Avatar>
         }
-        title={
-          <strong style={{ color: "white" }}>{name}</strong> ||
-          " [Bot Service] "
-        }
+        title={<strong style={{ color: 'white' }}>{name}</strong> || ' [Bot Service] '}
         // subheader="teamstx-demo_group" // resourceGroup
       ></CardHeader>
-      <Divider variant="middle" />
       <CardContent>
-        <Container maxWidth="sm">
-          <Divider variant="middle" />
-          <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  {provisioningStateValue === ProvisioningStateValues.Provisioned && (
-                    <CheckCircleIcon style={{ color: "lightgreen" }} />
-                  )}
-                  {provisioningStateValue === ProvisioningStateValues.Deprovisioned && (
-                    <CancelIcon style={{ color: "red" }} />
-                  )}
-                  {hasTransitioningState && <HourglassEmptyIcon />}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Status" secondary={provisioningStateDisplayName} />
-            </ListItem>
-          </List>
-          <Divider variant="middle" />
-        </Container>
+        <List>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar className={classes.avatarColor}>
+                {provisioningStateValue === ProvisioningStateValues.Provisioned && (
+                  provisionedIcon()
+                )}
+                {provisioningStateValue === ProvisioningStateValues.Deprovisioned && (
+                  <PowerOffIcon style={{ color: 'red' }} />
+                )}
+                {hasTransitioningState && <HourglassEmptyIcon className={classes.rotateIcon} />}
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={"Status"} secondary={stateDisplayName} />
+          </ListItem>
+          <ListItemSecondaryAction>
+            {![ProvisioningStateValues.Provisioning, ProvisioningStateValues.Provisioned].includes(
+              provisioningStateValue
+            ) && (
+              <IconButton aria-label="Start" onClick={onStart} disabled={hasTransitioningState}>
+                <PlayArrowRoundedIcon fontSize="large" />
+              </IconButton>
+            )}
+            {[ProvisioningStateValues.Provisioning, ProvisioningStateValues.Provisioned].includes(
+              provisioningStateValue
+            ) && (
+              <IconButton aria-label="Stop" onClick={onStop} disabled={hasTransitioningState}>
+                <StopRoundedIcon fontSize="large" />
+              </IconButton>
+            )}
+          </ListItemSecondaryAction>
+        </List>
       </CardContent>
-
-      <CardActions>
-        <Container maxWidth="lg">
-          {![ProvisioningStateValues.Provisioning , ProvisioningStateValues.Provisioned ].includes(
-            provisioningStateValue
-          ) && (
-            <IconButton
-              aria-label="Start"
-              onClick={onStart}
-              disabled={hasTransitioningState}
-            >
-              <PlayArrowRoundedIcon fontSize="large" />
-            </IconButton>
-          )}
-          {[ProvisioningStateValues.Provisioning , ProvisioningStateValues.Provisioned].includes(
-            provisioningStateValue
-          ) && (
-            <IconButton
-              aria-label="Stop"
-              onClick={onStop}
-              disabled={hasTransitioningState}
-            >
-              <StopRoundedIcon fontSize="large" />
-            </IconButton>
-          )}
-
-          <IconButton onClick={onRefresh} disabled={loading}>
-            <RefreshIcon fontSize="large" />
-          </IconButton>
-        </Container>
-      </CardActions>
     </Card>
   );
 };
