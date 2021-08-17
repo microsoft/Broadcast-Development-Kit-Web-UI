@@ -1,8 +1,5 @@
 # How to use the Web UI solution
 
-## Introduction
-
-
 ## Getting Started
 This document explains how to operate the Broadcast Development Kit (BDK) through the Web UI sample. This includes:
 
