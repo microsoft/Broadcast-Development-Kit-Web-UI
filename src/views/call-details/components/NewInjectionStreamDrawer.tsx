@@ -98,10 +98,10 @@ const NewInjectionStreamDrawer: React.FC = () => {
       protocol: state.protocol || StreamProtocol.SRT,
       mode: state.streamMode || StreamMode.Caller,
       streamUrl: state.injectionUrl,
-      latency: state.latency,
-      streamKey: StreamProtocol.SRT ? state.passphrase : undefined,
-      enableSsl: state.enableSsl,
-      keyLength: state.passphrase ? state.keyLength : KeyLength.None,
+      latency: state.protocol === StreamProtocol.SRT ? state.latency : undefined,
+      streamKey: state.protocol === StreamProtocol.SRT ? state.passphrase : undefined,
+      enableSsl: state.protocol === StreamProtocol.RTMP ? state.enableSsl : undefined,
+      keyLength: (state.protocol === StreamProtocol.SRT && state.passphrase) ? state.keyLength : undefined,
     };
 
     dispatch(startInjectionAsync(newInjectionStream));
