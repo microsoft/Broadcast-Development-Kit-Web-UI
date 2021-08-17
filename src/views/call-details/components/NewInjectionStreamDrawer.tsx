@@ -99,7 +99,7 @@ const NewInjectionStreamDrawer: React.FC = () => {
       mode: state.streamMode || StreamMode.Caller,
       streamUrl: state.injectionUrl,
       latency: state.latency,
-      streamKey: state.passphrase,
+      streamKey: StreamProtocol.SRT ? state.passphrase : undefined,
       enableSsl: state.enableSsl,
       keyLength: state.passphrase ? state.keyLength : KeyLength.None,
     };
