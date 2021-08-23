@@ -44,7 +44,7 @@ const App: React.FC = () => {
   } else {
     return (
       <div id="app">
-        {isAuthenticated ? <Header /> : <></>}
+        {isAuthenticated && <Header />}
         <div id="main">
           <Switch>
             <Route exact path="/login" component={LoginPage} />
