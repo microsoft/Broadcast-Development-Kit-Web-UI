@@ -111,7 +111,7 @@ const StreamCard: React.FC<StreamCardProps> = (props) => {
 
   const operationEnabled =
     callStreams.callEnabled &&
-    (stream.state === StreamState.Started ||
+    ((stream.state === StreamState.Ready || stream.state === StreamState.Receiving || stream.state === StreamState.NotReceiving) ||
       (stream.state === StreamState.Disconnected &&
         ((stream.type === StreamType.VbSS && callStreams.stageEnabled) ||
           (stream.type === StreamType.PrimarySpeaker && callStreams.primarySpeakerEnabled) ||
@@ -211,7 +211,9 @@ const getConnectionClass = (stream: Stream): string => {
       return 'disconnected';
     case StreamState.Starting:
       return 'initializing';
-    case StreamState.Started:
+    case StreamState.Ready:
+    case StreamState.Receiving:
+    case StreamState.NotReceiving:
       return stream.isHealthy ? 'established' : 'error';
     case StreamState.Error:
     case StreamState.StartingError:
@@ -232,7 +234,9 @@ const getConnectionStatus = (stream: Stream): string => {
     case StreamState.StartingError:
     case StreamState.StoppingError:
       return 'Unhealthy Stream';
-    case StreamState.Started:
+    case StreamState.Ready:
+    case StreamState.Receiving:
+    case StreamState.NotReceiving:
       return stream.isHealthy ? 'Active Stream' : 'Unhealthy Stream';
   }
 };
