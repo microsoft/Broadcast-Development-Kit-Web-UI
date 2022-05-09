@@ -159,7 +159,7 @@ Placeholder | Description
  apiBaseUrl | [URL](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/web_app_and_app_service_plan.md) on which the ManagementApi of the backend solution is listening.
  spaClientId | Client Id of the [App Registration](#create-a-new-app-registration) of this frontend solution.
  apiClientId | Client Id of the [App Registration](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/app_registrations.md#how-to-setup-management-api-app-registration) of the ManagementApi. 
- groupId | ObjectId of the [group](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/security_group.md) created on Azure. 
+ groupId | ObjectId of the [group](https://github.com/microsoft/Broadcast-Development-Kit/blob/main/docs/how-to-run-the-solution-in-azure/security_group.md) created on Azure. If left empty, users do not need to belong to the security group to log in to the Web Portal. 
  tenantId | Azure account Tenant Id.
  spaPrimaryEndpoint | `Primary endpoint` copied from `Static website` menu of Storage Account
 

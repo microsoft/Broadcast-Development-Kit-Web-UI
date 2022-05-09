@@ -80,7 +80,7 @@ After clicking on the `Edit` button, you can select the desired protocol, by def
 ![Web UI call-details view change protocol](images/call-details-view-select-protocol.png)
 
 #### Injection Stream
-This section renders a `Card` that allows you to configure and start the stream injection into the current meeting. To start an injection please refer to the section [How to inject a stream into the meeting](#how-to-inject-a-stream-into-the-meeting)
+This section renders a `Card` that allows you to configure and start the stream injection into the current meeting. To start an injection please refer to the section [How to inject a stream into the meeting](#how-to-inject-media-content-into-the-meeting)
 
 #### Active Streams
 This section renders a `Card` for each [Main](#main-streams) and [Participant](#participants) stream/s being extracted. In those `Card` you can find the information related to the extracted stream itself and stop the extraction from here.
@@ -136,6 +136,8 @@ If the Injection Stream could be successfully started, the Injection `Card` will
 ![Web UI call-details injection card](images/call-details-view-injection-card.png)
 
 ![Web UI call-details injection card expanded](images/call-details-view-injection-card-expanded.png)
+
+>**NOTE**: The state of the Injection card could change from `Ready` to `Receiving` or `Not Receiving` depending on whether or not any content is being injected.
 
 ### How to extract media content from the meeting
 To extract media content from the meeting you need can go to the Main Streams or Participants section and click on the `Start` button in the `Card` of the stream you want to extract.

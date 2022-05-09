@@ -98,7 +98,7 @@ const CallInfo: React.FC = () => {
     (stream) => stream.type === StreamType.Participant
   ).length;
   const activeStreams = callInfoProps.call.streams.filter((stream) =>
-    [StreamState.Stopping, StreamState.Starting, StreamState.Started].includes(stream.state)
+    [StreamState.Stopping, StreamState.Starting, StreamState.Ready, StreamState.Receiving, StreamState.NotReceiving].includes(stream.state)
   ).length;
 
   const protocols = Object.keys(StreamProtocol).filter((i) => !isNaN(parseInt(i)));
@@ -119,11 +119,7 @@ const CallInfo: React.FC = () => {
           keyLength: [{ type: 'integer', required: true } as Rule],
         };
 
-  const hasActiveStreams = callInfoProps.streams.find(
-    (o) => o.state === StreamState.Started || o.state === StreamState.Stopping || o.state === StreamState.Starting
-  )
-    ? true
-    : false;
+  const hasActiveStreams = activeStreams > 0;
 
   return (
     <Form onFinish={onDefaultsUpdated} ref={formRef}>

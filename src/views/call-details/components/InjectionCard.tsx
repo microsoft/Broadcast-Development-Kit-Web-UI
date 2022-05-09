@@ -163,12 +163,13 @@ const InjectionCard: React.FC<InjectionCardProps> = (props) => {
 const getConnectionClass = (stream: InjectionStream | null): string => {
   switch (stream?.state) {
     case StreamState.Stopping:
-      return 'disconnected';
     case StreamState.Disconnected:
       return 'disconnected';
     case StreamState.Starting:
       return 'initializing';
-    case StreamState.Started:
+    case StreamState.Ready:
+    case StreamState.Receiving:
+    case StreamState.NotReceiving:
       return 'established';
     case StreamState.Error:
     case StreamState.StartingError:
@@ -191,8 +192,12 @@ const getConnectionStatus = (stream: InjectionStream | null): string => {
     case StreamState.StartingError:
     case StreamState.StoppingError:
       return 'Unhealthy Stream';
-    case StreamState.Started:
-      return 'Active Stream';
+    case StreamState.Ready:
+      return 'Ready';
+    case StreamState.Receiving:
+      return 'Receiving';
+    case StreamState.NotReceiving:
+      return 'Not Receiving';
     default:
       return 'Available Stream';
   }

@@ -78,6 +78,11 @@ export default class AuthService {
 
   private static getUserRole(jwtToken: string): UserRoles {
     const groupId = AuthService.appConfig.groupId;
+
+    if(!groupId){
+      return UserRoles.Producer;
+    }
+
     const decodedToken = jwtDecode(jwtToken) as DecodedToken;
     // If users are in the RBAC group then they have the Producer/Broadcast role
     const role = decodedToken.groups && decodedToken.groups.includes(groupId) ? UserRoles.Producer: UserRoles.Attendee;
