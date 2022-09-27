@@ -22,6 +22,7 @@ This repository contains a sample Web UI for the [Broadcast Development Kit](htt
 You can follow these documents to run and deploy the sample UI:
 - [How to run the solution locally](docs/how-to-run-the-solution-locally/README.md)
 - [How to run the solution in Azure](docs/how-to-run-the-solution-in-azure/README.md)
+- [How to run the solution in Azure (scripts)](docs/how-to-run-the-solution-in-azure-scripts/README.md)
 
 You can find more information on how to use the UI in the following document:
 - [How to use the Web UI solution](docs/how-to-use-the-solution/README.md)
